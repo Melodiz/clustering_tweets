@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 from llama_index.embeddings.ollama import OllamaEmbedding
-import ollama
 from pathlib import Path
 import os
 
@@ -71,4 +70,4 @@ def transform_banch_of_text_puretxt(file_path):
 
 
 if __name__ == "__main__":
-    transform_banch_of_text_csv(file_path='embedings_core/data/reddit_comments_train.csv')
+    transform_banch_of_text_csv(file_path='../data/reddit_comments_train.csv')

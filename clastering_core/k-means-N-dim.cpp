@@ -68,6 +68,8 @@ std::vector<Point> initialize_random_centroids(const std::vector<Point>& points,
     {
         int index = rand() % points.size();// random index of the point
         centroids.push_back(points[index]);// add the point to the centroids
+        centroids[i].cluster = i;          // assign the cluster to the centroid
+        centroids[i].distance = 0;         // set the distance to 0
     }
     return centroids;
 }
@@ -130,6 +132,7 @@ void kMeansClustering(std::vector<Point>& points, int epochs, int k)
 
     // initialize the centroids for first time
     std::vector<Point> centroids = initialize_random_centroids(points, k);
+
     std::cout << "Initializing..." << std::endl;
     int changed = 0;// number of changed points
     for (int i = 0; i < epochs; i++)
@@ -169,7 +172,7 @@ void save_result_to_csv(const std::vector<Point>& points, const std::string& fil
     {
         file << i << ',' << points[i].cluster << ',' << points[i].distance << '\n';
     }
-    std::cout << "Saved to: " << filename << std::endl; // successfully saved
+    std::cout << "Saved to: " << filename << std::endl;// successfully saved
     file.close();
 }
 
@@ -182,7 +185,7 @@ int main()
 
     // start the clustering...
     // hyper-parameters:
-    int k = 40;     // number of clusters
+    int k = 20;     // number of clusters
     int epochs = 10;// number of iterations
     kMeansClustering(points, epochs, k);
     // save the result to the csv file
