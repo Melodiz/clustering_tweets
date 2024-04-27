@@ -3,8 +3,8 @@ import numpy as np
 from llama_index.embeddings.ollama import OllamaEmbedding
 import ollama
 
-file_path = "data/reddit_comments_train.csv"
-content = pd.read_csv(file_path)['body'].to_list()[:100]
+file_path = "embedings_core/data/reddit_comments_train.csv"
+content = pd.read_csv(file_path)['body'].to_list()[:10]
 
 
 ollama_embedding = OllamaEmbedding(
@@ -16,7 +16,9 @@ ollama_embedding = OllamaEmbedding(
 pass_embedding = ollama_embedding.get_text_embedding_batch(
     content, show_progress=True)
 
+
+
 # query_embedding = ollama_embedding.get_query_embedding("Where is blue?")
 # print(query_embedding)
 out_file = "data/reddit_comments_train_embeddings.npy"
-np.save(out_file, pass_embedding)
+# np.save(out_file, pass_embedding)
