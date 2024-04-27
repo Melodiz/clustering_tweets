@@ -15,11 +15,11 @@ pip install -r requirements.txt
 download [ollama](https://ollama.com/download/mac), and follow the instructions
 
 ## ideas:
-    * determine topmost opinion through timeperiod
-    * build the map, 2d representation, by t-SNE
-    * determine cluster for new comment (with deistances)
-    * reveal the cluster's neighbors for new comments
-    * show, determined by llm model, cluster's names
-    * sizes of clusters
-    * reveal top 10 comments of each cluster by cluster position
-    * reveal top 10 comments of each cluster by upvotes
+    1. determine topmost opinion through timeperiod
+    2. build the map, 2d representation, by t-SNE
+    3. determine cluster for new comment (with deistances)
+    4. reveal the cluster's neighbors for new comments
+    5. show, determined by llm model, cluster's names
+    6. sizes of clusters
+    7. reveal top 10 comments of each cluster by cluster position
+    8. reveal top 10 comments of each cluster by upvotes

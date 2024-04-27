@@ -70,4 +70,4 @@ def transform_banch_of_text_puretxt(file_path):
 
 
 if __name__ == "__main__":
-    transform_banch_of_text_csv(file_path='../data/reddit_comments_train.csv')
+    transform_banch_of_text_csv(file_path='data/reddit_comments_train.csv')

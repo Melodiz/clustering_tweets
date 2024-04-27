@@ -1,11 +1,9 @@
-#include "include/npy.hpp"// https://github.com/llohse/libnpy
 #include <algorithm>
 #include <cmath>
 #include <fstream>// for file-reading
 #include <iostream>
 #include <string>
 #include <vector>
-#include <map>
 
 
 // implementation of each point
@@ -40,69 +38,72 @@ struct Point {
     }
 };
 
-// reading the data from the npy file
-std::vector<Point> read_data(const std::string& filename)
-{
-    // open the file
-    npy::npy_data file = npy::read_npy<double>(filename);
-    std::cout << "Reading..." << filename << std::endl;
+// reading the data from csv file
 
-    std::vector<Point> points;
-    for (int i = 0; i < file.shape[0]; i++)
+std::vector<Point> read_data(const std::string& filePath)
+{
+    // file contains x and y coordinates
+    std::vector<Point> points = {};
+    std::ifstream file(filePath);
+    if (!file.is_open())
     {
-        std::vector<double> coords;// coordinates of the point
-        for (int j = 0; j < file.shape[1]; j++)
-        {
-            coords.push_back(file.data[i * file.shape[1] + j]);
-        }
-        // add the point to the vector with standart values
+        std::cerr << "Error opening file: " << filePath << std::endl;
+        return points;
+    }
+    std::cout << "Reading..." << filePath << std::endl;
+    std::string line;
+    std::getline(file, line); // skip the header line
+    while (std::getline(file, line))
+    {
+        std::vector<double> coords = {};
+        double x = std::stoi(line.substr(0, line.find(',')));
+        double y = std::stoi(line.substr(line.find(',') + 1));
+        coords.push_back(x);
+        coords.push_back(y);
         points.push_back(Point(coords));
     }
-    std::cout << "Read " << points.size() << " points" << std::endl;
+
+    file.close();
     return points;
 }
+
 
 std::vector<Point> initialize_random_centroids(const std::vector<Point>& points, int k)
 {
     std::vector<Point> centroids;// assignment of the centroids
-    // for (int i = 0; i < k; i++)
-    // {
-    //     int index = rand() % points.size();// random index of the point
-    //     centroids.push_back(points[index]);// add the point to the centroids
-    //     centroids[i].cluster = i;          // assign the cluster to the centroid
-    //     centroids[i].distance = 0;         // set the distance to 0
-    // }
-    for (size_t i = 0; i < k; i++)
+    for (int i = 0; i < k; i++)
     {
-        centroids.push_back(points[i]);
-        centroids[i].cluster = i;
-        centroids[i].distance = 0.0;
+        int index = rand() % points.size();// random index of the point
+        centroids.push_back(points[index]);// add the point to the centroids
+        centroids[i].cluster = i;          // assign the cluster to the centroid
+        centroids[i].distance = 0;         // set the distance to 0
     }
     return centroids;
 }
+
 
 int assignPointsToClasters(std::vector<Point>& points, const std::vector<Point>& centroids)
 {
     // assign each point to the closest centroid
     int changed = 0;// number of changed points
-    for (int i = 0; i < points.size(); i++) // for each point
+    for (int i = 0; i < points.size(); i++)
     {
         double min_distance = __DBL_MAX__;        // set to infinity
-        int closest_index = -1;                       // index of the closest centroid, default -1
+        int min_index = -1;                       // index of the closest centroid, default -1
         for (int j = 0; j < centroids.size(); j++)// for each centroid
         {
             double distance = points[i].dist(centroids[j]);// calculate the distance
             // if the distance is smaller than the current minimum distance
             if (distance < min_distance)
             {
-                min_distance = distance; // update the minimum distance
-                closest_index = j;          // update the index of the closest centroid
+                min_distance = distance;// update the minimum distance
+                min_index = j;          // update the index of the closest centroid
             }
         }
-        if (points[i].cluster != closest_index)   // if the point is not assigned to the closest centroid
+        if (points[i].cluster != min_index)// if the point is not assigned to the closest centroid
         {
             changed++;                        // increment the number of changed points
-            points[i].cluster = closest_index;    // assign the point to the closest centroid
+            points[i].cluster = min_index;    // assign the point to the closest centroid
             points[i].distance = min_distance;// update the distance to the centroid
         }
     }
@@ -113,7 +114,7 @@ void recalculateCentroids(std::vector<Point>& points, std::vector<Point>& centro
     // recalculate the centroids
     for (int i = 0; i < centroids.size(); i++)// for each centroid
     {
-        std::vector<double> newCentroid;        // new coordinates of the centroid
+        std::vector<double> newCentroid;                    // new coordinates of the centroid
         for (int j = 0; j < centroids[i].coords.size(); j++)// for each coordinate
         {
             double sum = 0;                        // sum of the coordinates
@@ -129,16 +130,7 @@ void recalculateCentroids(std::vector<Point>& points, std::vector<Point>& centro
         centroids[i].coords = newCentroid;// update the centroid
     }
 }
-void printClusters(const std::vector<Point>& points)
-{
-    std::map<int, int> clustersSize;
-    for (int i = 0; i < points.size(); i++)
-    {
-        clustersSize[points[i].cluster]++;
-    }
-    for (int i = 0; i < clustersSize.size(); i++)
-        std::cout << "Cluster " << i << ": " << clustersSize[i] << std::endl;
-}
+
 void kMeansClustering(std::vector<Point>& points, int epochs, int k)
 {
     // pints is all points in the dataset
@@ -152,11 +144,12 @@ void kMeansClustering(std::vector<Point>& points, int epochs, int k)
     int changed = 0;// number of changed points
     for (int i = 0; i < epochs; i++)
     {
+        std::cout << "Iteration " << i + 1 << "..." << std::endl;
         // recalculate the centroids
         changed = assignPointsToClasters(points, centroids);
         // assign each point to the closest centroid
         recalculateCentroids(points, centroids);
-        std::cout << "Iteration No: " << i+1 << " Points changed: " << changed << std::endl;
+        std::cout << "Points changed: " << changed << std::endl;
         if (changed == 0)// if there are no changed points
             break;
     }
@@ -192,17 +185,18 @@ void save_result_to_csv(const std::vector<Point>& points, const std::string& fil
 
 int main()
 {
+
     // read the data from the npy file
-    std::string filePath = "../data/train_embeddings.npy";
-    std::vector<Point> points = read_data(filePath);
+    std::string filePathTSNE = "../data/train_embeddings_tsne.csv";
+    std::vector<Point> points = read_data(filePathTSNE);
 
     // start the clustering...
     // hyper-parameters:
-    int k = 20;        // number of clusters
-    int epochs = 10;   // number of iterations
+    int k = 20;     // number of clusters
+    int epochs = 100;// number of iterations
     kMeansClustering(points, epochs, k);
     // save the result to the csv file
-    std::string filename = "../data/train_embeddings_clusters.csv";
+    std::string filename = "../data/TSNE_train_embeddings_clusters.csv";
     save_result_to_csv(points, filename);
     // done
     return 0;
