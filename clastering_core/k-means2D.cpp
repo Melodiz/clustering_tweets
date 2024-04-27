@@ -130,7 +130,23 @@ void recalculateCentroids(std::vector<Point>& points, std::vector<Point>& centro
         centroids[i].coords = newCentroid;// update the centroid
     }
 }
-
+void printClustersSize(const std::vector<Point>& points, const std::vector<Point>& centroids)
+{
+    // print the number of points in each cluster
+    std::cout << "Clusters size:" << std::endl;
+    for (int i = 0; i < centroids.size(); i++)
+    {
+        int count = 0;
+        for (int j = 0; j < points.size(); j++)
+        {
+            if (points[j].cluster == i)
+            {
+                count++;
+            }
+        }
+        std::cout << "Cluster " << i << ": " << count << std::endl;
+    }
+}
 void kMeansClustering(std::vector<Point>& points, int epochs, int k)
 {
     // pints is all points in the dataset
@@ -150,6 +166,7 @@ void kMeansClustering(std::vector<Point>& points, int epochs, int k)
         // assign each point to the closest centroid
         recalculateCentroids(points, centroids);
         std::cout << "Points changed: " << changed << std::endl;
+        // printClustersSize(points, centroids);// print the number of points in each cluster
         if (changed == 0)// if there are no changed points
             break;
     }
@@ -185,7 +202,6 @@ void save_result_to_csv(const std::vector<Point>& points, const std::string& fil
 
 int main()
 {
-
     // read the data from the npy file
     std::string filePathTSNE = "../data/train_embeddings_tsne.csv";
     std::vector<Point> points = read_data(filePathTSNE);
