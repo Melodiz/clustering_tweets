@@ -1,6 +1,6 @@
 #include <algorithm>
 #include <cmath>
-#include <fstream>// for file-reading
+#include <fstream>  // for file-reading
 #include <iostream>
 #include <string>
 #include <vector>

@@ -17,5 +17,5 @@ data['x'] = embeddings['x']
 data['y'] = embeddings['y']
 data['cluster'] = data['cluster'].apply(lambda x: alfabet[x])
 
-fig = px.scatter(data, x='x', y='y', color='cluster', template='plotly_dark')
+fig = px.scatter(data, x='x', y='y', color='distance', template='plotly_dark')
 fig.show()
