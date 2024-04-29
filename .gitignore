@@ -1,3 +1,6 @@
 embedings_core/data/
 env/
-data/
+data/big_data/
+data/t-SNE_projected
+data/train_embeddings.npy
+data/TSNE_train_embeddings_clusters.csv

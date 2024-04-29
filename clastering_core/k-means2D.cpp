@@ -203,7 +203,7 @@ void save_result_to_csv(const std::vector<Point>& points, const std::string& fil
 int main()
 {
     // read the data from the npy file
-    std::string filePathTSNE = "../data/train_embeddings_tsne.csv";
+    std::string filePathTSNE = "../data/t-SNE_projected";
     std::vector<Point> points = read_data(filePathTSNE);
 
     // start the clustering...
