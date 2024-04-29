@@ -25,7 +25,6 @@ def transform_banch_of_text_direct(text_batch):
 
 
 def transform_banch_of_text_csv(file_path):
-    directory = Path(file_path).parent
 
     content = pd.read_csv(file_path)['body'].to_list()
 
@@ -70,4 +69,8 @@ def transform_banch_of_text_puretxt(file_path):
 
 
 if __name__ == "__main__":
+    import time
+    start = time.time()
     transform_banch_of_text_csv(file_path='data/reddit_comments_train.csv')
+    end = time.time()
+    print(f'time required: {end-start} seconds')

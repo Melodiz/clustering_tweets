@@ -2,6 +2,7 @@ import numpy as np
 # from sklearn.manifold import TSNE # for t-SNE
 import pandas as pd
 import plotly.express as px
+from sklearn.cluster import KMeans
 
 data_path = "data/TSNE_train_embeddings_clusters.csv"
 embeddings_path = "data/train_embeddings_tsne.csv"
@@ -16,6 +17,15 @@ alfabet = {0:"A", 1:"B", 2:"C", 3:"D", 4:"C", 5:"E", 6:"F",
 data['x'] = embeddings['x']
 data['y'] = embeddings['y']
 data['cluster'] = data['cluster'].apply(lambda x: alfabet[x])
+points = [[data['x'][i], data['y'][i]] for i in range(len(data))]
 
-fig = px.scatter(data, x='x', y='y', color='distance', template='plotly_dark')
+
+kmeans = KMeans(n_clusters=20, random_state=0, n_init="auto").fit(points)
+
+fig = px.scatter(data, x='x', y='y', color='cluster', template='plotly_dark')
 fig.show()
+
+data["cluster"] = kmeans.labels_
+
+fig_2  = px.scatter(data, x='x', y='y', color='cluster', template='plotly_dark')
+fig_2.show()

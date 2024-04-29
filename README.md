@@ -22,8 +22,6 @@ The resulting embeddings were saved to data/train_embeddings.npy.
 
 In the future we will probably rent a server with high computing power to turn the rest of the comments into embeddings. It is also possible that a more accurate model such as Mistral will be used.
 
-and saved to data/train_embeddings.npy.
-
 ## Clustering Logic
 
 For clustering, we implemented the k-means clustering algorithm from scratch. Initially, we used clustering_core/k-means-N_dim.cpp for embedding, but due to time constraints with larger datasets, we switched to using t-SNE for dimensionality reduction. The 2D k-means implementation can be found in clustering_core/k-means2D.cpp. The clustering results are saved in data/train_embeddings_clusters.csv, including cluster names and distances of each point from the cluster centroids.
