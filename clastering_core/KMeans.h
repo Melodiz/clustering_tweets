@@ -35,7 +35,7 @@ struct Point {
 };
 
 // define a function to read data
-std::vector<Point> read_data_from_csv(std::string path);
+std::vector<Point> read_data(std::string path);
 std::vector<Point> initialize_random_centroids(const std::vector<Point>& points, int k);
 
 class KMeans
@@ -65,7 +65,7 @@ public:
         _pointsPath = pointsPath;
         _centroidsPath = centroidsPath;
         _resultPath = resultPath;
-        _points = read_data_from_csv(pointsPath);
+        _points = read_data(pointsPath);
         _centroids = initialize_random_centroids(_points, _k);
     }
     void kMeansClustering();
@@ -74,7 +74,7 @@ public:
     // void printClustersSize();
     void save_result_to_csv();
     void save_centroids_to_csv();
-    void run(); // run the algorithm and save the result + centroids
+    void run(); /// run the algorithm and save the result + centroids
 };
 
 void KMeans::run()
@@ -88,7 +88,7 @@ void KMeans::run()
 
 void KMeans::kMeansClustering()
 {
-    int points_changed = _points.size();
+    int points_changed = _points.size();// amount of points changed during clustering iteration
     while (points_changed > 0 && _max_iter > 0)
     {
         // assign points to clusters and save the number of changed points
