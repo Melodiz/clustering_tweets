@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <chrono>  // for time measurement
 #include <cmath>
 #include <fstream>  // for file-reading
 #include <iostream>
@@ -52,12 +53,12 @@ std::vector<Point> read_data(const std::string& filePath)
     }
     std::cout << "Reading..." << filePath << std::endl;
     std::string line;
-    std::getline(file, line); // skip the header line
+    std::getline(file, line);// skip the header line
     while (std::getline(file, line))
     {
         std::vector<double> coords = {};
-        double x = std::stoi(line.substr(0, line.find(',')));
-        double y = std::stoi(line.substr(line.find(',') + 1));
+        double x = std::stold(line.substr(0, line.find(',')));
+        double y = std::stold(line.substr(line.find(',') + 1));
         coords.push_back(x);
         coords.push_back(y);
         points.push_back(Point(coords));
@@ -147,7 +148,7 @@ void printClustersSize(const std::vector<Point>& points, const std::vector<Point
         std::cout << "Cluster " << i << ": " << count << std::endl;
     }
 }
-void kMeansClustering(std::vector<Point>& points, int epochs, int k)
+std::vector<Point> kMeansClustering(std::vector<Point>& points, int epochs, int k)
 {
     // pints is all points in the dataset
     // k is the number of clusters
@@ -173,14 +174,14 @@ void kMeansClustering(std::vector<Point>& points, int epochs, int k)
     std::cout << "Clusterization done successfully" << std::endl;
     // finally assign each point to the closest centroid
     assignPointsToClasters(points, centroids);
+    return centroids;// return the centroids
 }
 
 void save_result_to_csv(const std::vector<Point>& points, const std::string& filename)
 {
     // save the result to the csv file
     // in the format:
-    // point_index, cluster, distance from the centroid
-    // since we don's change order the points, we can use the index of the point
+    // point_index, cluster, distance from the centroid, x_value, y_value
     std::cout << "Saving..." << std::endl;
     std::ofstream file(filename);
     if (!file.is_open())// if the file is not open then error out
@@ -189,31 +190,65 @@ void save_result_to_csv(const std::vector<Point>& points, const std::string& fil
         return;
     }
     // save headers
-    file << "id" << "," << "cluster" << "," << "distance" << "\n";
+    file << "id,cluster,distance,x,y" << "\n";
 
     // save the data to the file
     for (int i = 0; i < points.size(); i++)// for each point
     {
-        file << i << ',' << std::to_string(points[i].cluster) << ',' << points[i].distance << '\n';
+        file << i << ',' << std::to_string(points[i].cluster) << ',' << points[i].distance << points[i].coords[0] << ',' << points[i].coords[1] << '\n';
     }
     std::cout << "Saved to: " << filename << std::endl;// successfully saved
     file.close();
 }
 
+void save_centroids_to_csv(const std::vector<Point>& centroids, const std::string& filename)
+{
+    std::cout << "Saving centroids..." << std::endl;
+    std::ofstream file(filename);
+    if (!file.is_open())// if the file is not open then error out
+    {
+        std::cout << "Error saving the file" << std::endl;
+        return;
+    }
+    // save headers
+    file << "cluster,x,y\n";
+    // save the data to the file
+    for (int i = 0; i < centroids.size(); i++)// for each point
+    {
+        file << centroids[i].cluster << ',' << centroids[i].coords[0] << ',' << centroids[i].coords[1] << '\n';
+    }
+    std::cout << "Centroinds saved to: " << filename << std::endl;// successfully saved
+    file.close();
+}
+
 int main()
 {
+    // start measuring time
+    auto start = std::chrono::high_resolution_clock::now();
+
     // read the data from the npy file
-    std::string filePathTSNE = "../data/t-SNE_projected";
+    std::string filePathTSNE = "../data/t-SNE_projected.csv";
     std::vector<Point> points = read_data(filePathTSNE);
+    std::cout << points[0].coords[0] << ',' << points[0].coords[1] << std::endl;
 
     // start the clustering...
     // hyper-parameters:
-    int k = 20;     // number of clusters
+    int k = 20;      // number of clusters
     int epochs = 100;// number of iterations
-    kMeansClustering(points, epochs, k);
+    std::vector<Point> centroinds = kMeansClustering(points, epochs, k);
     // save the result to the csv file
-    std::string filename = "../data/TSNE_train_embeddings_clusters.csv";
-    save_result_to_csv(points, filename);
+    std::string out_path = "../data/TSNE_train_embeddings_clusters.csv";
+    save_result_to_csv(points, out_path);
+    // save the centroids to the csv file
+    std::string out_path = "../data/centroids.csv";
+    save_centroids_to_csv(centroinds, out_path);
     // done
+    std::cout << "-------------Done-------------" << std::endl;
+    // print the elapsed time
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end - start;
+    std::cout << "Time taken by kMeansClustering: " << elapsed_seconds.count() << " seconds" << std::endl;
+
+
     return 0;
 }

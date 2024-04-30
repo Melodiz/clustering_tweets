@@ -25,7 +25,7 @@ def from_npy_to_csv(filepath):
                   init='random', perplexity=3).fit_transform(data)
 
     dir = Path(filepath).parent
-    output_file = os.path.join(dir, 't-SNE_projected')  # output file name
+    output_file = os.path.join(dir, 't-SNE_projected.csv')  # output file name
     # save to file path as csv file
     pd.DataFrame(result, columns=['x', 'y']).to_csv(output_file, index=False)
     print('result saved to: ', output_file)
