@@ -74,7 +74,7 @@ public:
     // void printClustersSize();
     void save_result_to_csv();
     void save_centroids_to_csv();
-    void run(); /// run the algorithm and save the result + centroids
+    void run();/// run the algorithm and save the result + centroids
 };
 
 void KMeans::run()
@@ -118,6 +118,7 @@ int KMeans::assignPointsToClasters()
         if (_points[i].cluster_id != min_index)
         {
             _points[i].cluster_id = min_index;
+            _points[i].distance = min_dist;
             points_changed++;
         }
     }
@@ -269,12 +270,17 @@ void KMeans::save_result_to_csv()
         return;
     }
     // save headers
-    file << "id,cluster,distance,x,y" << "\n";
+    file << "cluster,distance,x,y" << "\n";
 
     // save the data to the file
+
     for (int i = 0; i < _points.size(); i++)// for each point
     {
-        file << i << ',' << std::to_string(_points[i].cluster_id) << ',' << _points[i].distance << _points[i].x << ',' << _points[i].y << '\n';
+        std::string line = std::to_string(_points[i].cluster_id) +  \
+            ',' + std::to_string(_points[i].distance) + ',' + \
+            std::to_string(_points[i].x) + ',' + std::to_string(_points[i].y) + "\n";
+
+        file << line;
     }
     std::cout << "Saved to: " << _resultPath << std::endl;// successfully saved
     file.close();
