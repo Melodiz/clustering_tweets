@@ -68,13 +68,17 @@ public:
         _points = read_data(pointsPath);
         _centroids = initialize_random_centroids(_points, _k);
     }
+    KMeans(int k, int max_iter, std::vector<Point> points) : _k(k), _max_iter(max_iter), _points(points), _centroids(initialize_random_centroids(_points, _k)){};
+    KMeans(int k, int max_iter) : _k(k), _max_iter(max_iter){};
     void kMeansClustering();
     int assignPointsToClasters();
     void recalculateCentroids();
     // void printClustersSize();
     void save_result_to_csv();
     void save_centroids_to_csv();
-    void run();/// run the algorithm and save the result + centroids
+    void run();      // run the algorithm and save the result + centroids
+    void setPoints(std::vector<Point> points);
+    std::vector<Point> getPoints() { return _points; }
 };
 
 void KMeans::run()
@@ -86,6 +90,12 @@ void KMeans::run()
 
 // CLUSTERING MODULE
 
+
+void KMeans::setPoints(std::vector<Point> points)
+{
+    _points = points;
+    _centroids = initialize_random_centroids(_points, _k);
+}
 void KMeans::kMeansClustering()
 {
     int points_changed = _points.size();// amount of points changed during clustering iteration
@@ -276,9 +286,9 @@ void KMeans::save_result_to_csv()
 
     for (int i = 0; i < _points.size(); i++)// for each point
     {
-        std::string line = std::to_string(_points[i].cluster_id) +  \
-            ',' + std::to_string(_points[i].distance) + ',' + \
-            std::to_string(_points[i].x) + ',' + std::to_string(_points[i].y) + "\n";
+        std::string line = std::to_string(_points[i].cluster_id) +
+                           ',' + std::to_string(_points[i].distance) + ',' +
+                           std::to_string(_points[i].x) + ',' + std::to_string(_points[i].y) + "\n";
 
         file << line;
     }
