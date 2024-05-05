@@ -11,25 +11,51 @@
 #include <vector>
 
 
+/**
+ * @struct Point
+ * @brief Represents a point in N-dimensional space.
+ * 
+ * This structure is used to represent both data points and centroids in a clustering algorithm.
+ * It contains coordinates in N-dimensional space, the distance from the nearest centroid, and the cluster ID to which the point belongs.
+ */
 struct Point {
-    std::vector<double> coords;
-    double distance;// distance from centroid
-    int cluster_id; // id of the cluster to which the point belongs to
+    std::vector<double> coords; ///< Coordinates of the point in N-dimensional space.
+    double distance; ///< Distance from the nearest centroid. Initialized to INT_MAX for data points.
+    int cluster_id;  ///< ID of the cluster to which the point belongs. Initialized to -1 to indicate no cluster assigned.
 
-    // constructor for row points
-    Point(const std::vector<double>& coords) : coords(coords), distance(INT_MAX), cluster_id(-1){};
+    /**
+     * @brief Constructor for creating a point from a vector of coordinates.
+     * @param coords A vector of doubles representing the coordinates of the point in N-dimensional space.
+     * This constructor is typically used for initializing data points.
+     */
+    Point(const std::vector<double>& coords) : coords(coords), distance(INT_MAX), cluster_id(-1) {};
 
-    // constructor for centroids
-    Point(const std::vector<double>& coords, int cluster_id) : coords(coords), distance(0), cluster_id(cluster_id){};
+    /**
+     * @brief Constructor for creating a centroid with specified coordinates and cluster ID.
+     * @param coords A vector of doubles representing the coordinates of the centroid in N-dimensional space.
+     * @param cluster_id An integer representing the unique ID of the cluster.
+     * This constructor is used for initializing centroids.
+     */
+    Point(const std::vector<double>& coords, int cluster_id) : coords(coords), distance(0), cluster_id(cluster_id) {};
 
-    // default constructor
-    Point() : distance(INT_MAX), cluster_id(-1), coords({}){};
+    /**
+     * @brief Default constructor.
+     * Initializes a point with no coordinates, maximum distance, and no cluster assigned.
+     */
+    Point() : distance(INT_MAX), cluster_id(-1), coords({}) {};
 
-    // constructor from initializer list (test case)
+    /**
+     * @brief Constructor for creating a point from an initializer list.
+     * @param list An initializer list of doubles representing the coordinates of the point.
+     * This constructor allows for easy inline initialization of points.
+     */
     Point(std::initializer_list<double> list) : coords(list) {}
 
-    // calculate the euclidian distance between two points
-
+    /**
+     * @brief Calculates the Euclidean distance between this point and another point.
+     * @param other A reference to another Point object.
+     * @return A double representing the Euclidean distance between the two points.
+     */
     double calcDist(const Point& other) const
     {
         double sum = 0;
@@ -40,107 +66,138 @@ struct Point {
         return sqrt(sum);
     }
 
-    // destructor
+    /**
+     * @brief Default destructor.
+     */
     ~Point() = default;
 };
 
 std::vector<Point> read_data(std::string path);
 std::vector<Point> initialize_random_centroids(const std::vector<Point>& points, int k);
-
+/**
+ * @class KMeansND
+ * @brief Implements the K-Means clustering algorithm for N-dimensional data.
+ *
+ * This class encapsulates the functionality required to perform K-Means clustering on a set of N-dimensional points.
+ * It supports initializing centroids randomly, assigning points to the nearest centroids, recalculating centroids,
+ * and saving the results to a file. The class allows for clustering with or without storing the coordinates of points
+ * in the output file to save memory.
+ */
 class KMeansND
 {
 protected:
-    // store hyperparameters
-    int _k;       // store the number of clusters
-    int _max_iter;// store the maximum number of iterations
+    int _k;       ///< Number of clusters.
+    int _max_iter;///< Maximum number of iterations to perform.
+    bool _with_coordinates;///< Flag to determine if point coordinates are saved in the output file.
 
-    bool _with_coordinates;// if true, then save the coordinates of points in output file
-    // default value is false (for saving memory)
+    std::vector<Point> _centroids;///< Vector storing the centroids of the clusters.
 
-    // store centroids
-    // i-th element store the coordinates of i-th centroid
-    std::vector<Point> _centroids;
+    std::string _pointsPath;   ///< Path to the input file containing the points.
+    std::string _centroidsPath;///< Path to the output file for saving centroids.
+    std::string _resultPath;   ///< Path to the output file for saving clustering results.
 
-    // store file paths
-    std::string _pointsPath;   // store the path of the file with row points
-    std::string _centroidsPath;// store the path of the file to write centroids
-    std::string _resultPath;   // store the path of the file to write result
-
-    // store points
-    std::vector<Point> _points;// store all points
+    std::vector<Point> _points;///< Vector storing all points to be clustered.
 
 public:
-    // constructor
-    KMeansND(int k, int max_iter, std::string pointsPath, std::string centroidsPath, std::string resultPath)
-    {
-        _k = k;
-        _max_iter = max_iter;
-        _pointsPath = pointsPath;
-        _centroidsPath = centroidsPath;
-        _resultPath = resultPath;
-        _points = read_data(_pointsPath);
-        _centroids = initialize_random_centroids(_points, _k);
-        _with_coordinates = false;
-    }
+    /**
+     * @brief Constructor for initializing KMeansND with file paths.
+     * @param k Number of clusters.
+     * @param max_iter Maximum number of iterations.
+     * @param pointsPath Path to the input file containing the points.
+     * @param centroidsPath Path to the output file for saving centroids.
+     * @param resultPath Path to the output file for saving clustering results.
+     */
+    KMeansND(int k, int max_iter, std::string pointsPath, std::string centroidsPath, std::string resultPath);
 
-    KMeansND(int k, int max_iter, std::vector<Point> points)
-    {
-        _k = k;
-        _max_iter = max_iter;
-        _points = points;
-        _centroids = initialize_random_centroids(_points, _k);
-        _with_coordinates = false;
-    }
+    /**
+     * @brief Constructor for initializing KMeansND with a vector of points.
+     * @param k Number of clusters.
+     * @param max_iter Maximum number of iterations.
+     * @param points Vector of points to be clustered.
+     */
+    KMeansND(int k, int max_iter, std::vector<Point> points);
 
-    KMeansND(int k, int max_iter) : _k(k), _max_iter(max_iter), _with_coordinates(false){};
-    // default constructor
+    /**
+     * @brief Minimal constructor for KMeansND.
+     * @param k Number of clusters.
+     * @param max_iter Maximum number of iterations.
+     */
+    KMeansND(int k, int max_iter);
+
+    /**
+     * @brief Default destructor.
+     */
     ~KMeansND() = default;
-    // copy constructor
-    KMeansND(const KMeansND& other) : _k(other._k), _max_iter(other._max_iter), _points(other._points), _centroids(other._centroids), _with_coordinates(other._with_coordinates), _pointsPath(other._pointsPath), _centroidsPath(other._centroidsPath), _resultPath(other._resultPath){};
 
-    void kMeansClustering();
-    int assignPointsToClasters();
-    void recalculateCentroids();
-    // void printClustersSize();
-    void save_result();
-    void save_centroids();
-    void run(bool show_time);// run the algorithm and save the result + centroids
-    void setPoints(std::vector<Point> points);
-    std::vector<Point> getPoints() { return _points; }
-    std::vector<Point> getCentroids() { return _centroids; }
-    void setCentroids(std::vector<Point> centroids) { _centroids = centroids; }
-    void setMaxIter(int max_iter) { _max_iter = max_iter; }
-    void setPointsPath(std::string pointsPath) { _pointsPath = pointsPath; }
-    void setCentroidsPath(std::string centroidsPath) { _centroidsPath = centroidsPath; }
-    void setResultPath(std::string resultPath) { _resultPath = resultPath; }
-    void setWithCoordinates(bool with_coordinates) { _with_coordinates = with_coordinates; }
-    void setK(int k) { _k = k; }
-    int getK() { return _k; }
-    std::map<int, int> getClustersSize();
+    /**
+     * @brief Copy constructor.
+     * @param other Another instance of KMeansND to be copied.
+     */
+    KMeansND(const KMeansND& other);
+
+    void kMeansClustering(); ///< Performs the K-Means clustering algorithm.
+    int assignPointsToClasters(); ///< Assigns each point to the nearest cluster.
+    void recalculateCentroids(); ///< Recalculates the centroids of the clusters.
+    void save_result(); ///< Saves the clustering results to a file.
+    void save_centroids(); ///< Saves the centroids to a file.
+    void run(bool show_time); ///< Runs the K-Means clustering algorithm and saves the results.
+
+    void setPoints(std::vector<Point> points); ///< Sets the points to be clustered.
+    std::vector<Point> getPoints(); ///< Returns the points being clustered.
+    std::vector<Point> getCentroids(); ///< Returns the centroids of the clusters.
+    void setCentroids(std::vector<Point> centroids); ///< Sets the centroids of the clusters.
+    void setMaxIter(int max_iter); ///< Sets the maximum number of iterations.
+    void setPointsPath(std::string pointsPath); ///< Sets the path to the input file containing the points.
+    void setCentroidsPath(std::string centroidsPath); ///< Sets the path to the output file for saving centroids.
+    void setResultPath(std::string resultPath); ///< Sets the path to the output file for saving clustering results.
+    void setWithCoordinates(bool with_coordinates); ///< Determines if point coordinates are saved in the output file.
+    void setK(int k); ///< Sets the number of clusters.
+    int getK(); ///< Returns the number of clusters.
+    std::map<int, int> getClustersSize(); ///< Returns the size of each cluster.
 };
+/**
+ * @brief Runs the K-Means clustering algorithm and optionally measures execution time.
+ * 
+ * This method orchestrates the K-Means clustering process by calling the methods to perform clustering,
+ * save the results, and save the centroids. If requested, it measures the time taken to complete the clustering
+ * process and outputs it to the standard output.
+ * 
+ * @param show_time If true, the execution time of the clustering process is measured and displayed. Defaults to false.
+ */
 void KMeansND::run(bool show_time = false)
 {
     if (show_time)
     {
-        std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-        kMeansClustering();
-        save_result();
-        save_centroids();
-        std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+        std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now(); // Mark the start time
+        kMeansClustering(); // Perform the clustering
+        save_result(); // Save the clustering results
+        save_centroids(); // Save the centroids
+        std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now(); // Mark the end time
+        // Calculate and display the elapsed time in milliseconds
         std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms" << std::endl;
     }
     else
     {
-        kMeansClustering();
-        save_result();
-        save_centroids();
+        kMeansClustering(); // Perform the clustering without timing
+        save_result(); // Save the clustering results
+        save_centroids(); // Save the centroids
     }
 }
 
+/**
+ * @brief Sets the points to be clustered and initializes the centroids randomly.
+ * 
+ * This method assigns a given vector of points to the KMeansND instance for clustering.
+ * It also initializes the centroids randomly based on these points and the specified number of clusters (_k).
+ * The centroids are chosen randomly from the given points.
+ * 
+ * @param points A vector of Point objects representing the data points to be clustered.
+ */
+
 void KMeansND::setPoints(std::vector<Point> points)
 {
-    _points = points;
-    _centroids = initialize_random_centroids(_points, _k);
+    _points = points; // Assign the given points to the instance's points vector.
+    _centroids = initialize_random_centroids(_points, _k); // Initialize centroids randomly from the given points.
 }
 
 void KMeansND::kMeansClustering()
