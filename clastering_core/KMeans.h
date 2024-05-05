@@ -179,7 +179,7 @@ std::vector<Point> initialize_random_centroids(const std::vector<Point>& points,
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, points.size() - 1);
-    std::map<int, bool> used;// store the indexes of used points
+    std::map<int, bool> used;  // store the indexes of used points
     for (int i = 0; i < k; i++)
     {
         int index = dis(gen);
