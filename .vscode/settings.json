@@ -73,6 +73,8 @@
         "future": "cpp",
         "shared_mutex": "cpp",
         "typeindex": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "cassert": "cpp",
+        "span": "cpp"
     }
 }
