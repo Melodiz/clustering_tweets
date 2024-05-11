@@ -65,7 +65,7 @@ public:
     std::map<int, int> getClustersSize() { return returnClustersSize(_points); }
 };
 
-void KMeansND::Cluster(bool showStatus = false)
+void KMeansND::Cluster(bool showStatus = false) // run clustering algorithm
 {
     int pointsChanged = assignPointsToCentroids(_points, _centroids);
     int iter = 0;
