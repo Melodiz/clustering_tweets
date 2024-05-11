@@ -75,6 +75,7 @@
         "typeindex": "cpp",
         "valarray": "cpp",
         "cassert": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "random": "cpp"
     }
 }
