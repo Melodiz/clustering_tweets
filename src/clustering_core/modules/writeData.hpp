@@ -1,3 +1,4 @@
+#pragma once
 #include "../include/npy.hpp"// https://github.com/llohse/libnpy
 #include "structPoint.hpp"     // implementation of Point structure
 #include <algorithm>
@@ -15,6 +16,18 @@
  * @param _with_coordinates If true, coordinates of each point are included in the output.
  */
 void save_result_to_csv(const std::string& _resultPath, const std::vector<Point>& _points, const std::vector<Point>& _centroids, bool _with_coordinates);
+
+/**
+ * Saves clustering results to a TXT file.
+ * 
+ * @param _resultPath Path to the output TXT file.
+ * @param _points Vector of Point objects representing the data points.
+ * @param _centroids Vector of Point objects representing the centroids.
+ * @param _with_coordinates If true, coordinates of each point are included in the output. Defaults to false.
+ * 
+ * @return void
+ */
+void save_result_to_txt(const std::string& _resultPath, const std::vector<Point>& _points, const std::vector<Point>& _centroids, bool _with_coordinates);
 
 /**
  * Saves clustering results to an NPY file.
@@ -73,10 +86,8 @@ void save_result(const std::string& _resultPath, const std::vector<Point>& _poin
 {
     // Determine the file type based on its extension
     std::string extension = _resultPath.substr(_resultPath.size() - 4);
-    std::cout << "Writing...";
-
     if (extension == ".csv") { save_result_to_csv(_resultPath, _points, _centroids, _with_coordinates); }
-    else if (extension == ".txt") { save_result_to_csv(_resultPath, _points, _centroids, _with_coordinates); }
+    else if (extension == ".txt") { save_result_to_txt(_resultPath, _points, _centroids, _with_coordinates); }
     else if (extension == ".npy") { save_result_to_npy(_resultPath, _points, _centroids, _with_coordinates); }
 
     else
@@ -85,7 +96,6 @@ void save_result(const std::string& _resultPath, const std::vector<Point>& _poin
         std::cout << "Supported file types: csv, npy, txt" << std::endl;
         exit(1);
     }
-    std::cout << "done" << std::endl;
 }
 
 void save_centroids(std::string _resultPath, const std::vector<Point>& _centroids)
@@ -121,7 +131,7 @@ void save_result_to_csv(const std::string& _resultPath, const std::vector<Point>
     {
         // save headers
         file << "cluster_id,distance,";
-        for (int i = 0; i < _points.size(); i++)
+        for (int i = 0; i < _points[0].coords.size(); i++)
         {
             file << "x" << i << ",";
         }
@@ -196,7 +206,7 @@ void save_result_to_txt(const std::string& _resultPath, const std::vector<Point>
         }
         // save headers
         file << "cluster_id,distance,";
-        for (int i = 0; i < _points.size(); i++)
+        for (int i = 0; i < _points[0].coords.size(); i++)
         {
             file << "x" << i << ",";
         }
@@ -272,10 +282,8 @@ void save_result_to_npy(const std::string& _resultPath, const std::vector<Point>
     // with coordinates
     if (_with_coordinates)
     {
-
         // open file
         npy::npy_data file = npy::read_npy<double>(_resultPath);
-        // save data without headers
         for (int i = 0; i < _centroids.size(); i++)
         {
             file.data[i * file.shape[1] + 0] = _centroids[i].cluster_id;

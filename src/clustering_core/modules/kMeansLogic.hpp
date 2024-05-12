@@ -1,3 +1,4 @@
+#pragma once
 #include "structPoint.hpp" // Point structure definition
 #include <cmath>
 #include <string>

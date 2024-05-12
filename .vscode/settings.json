@@ -76,6 +76,7 @@
         "valarray": "cpp",
         "cassert": "cpp",
         "span": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "filesystem": "cpp"
     }
 }

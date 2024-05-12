@@ -4,8 +4,8 @@
 #include <map>
 #include <vector>
 
-std::map<int, int> returnClustersSize(std::vector<Point> _points);
-void iterationStatus(int iteration, int pointsChanged);
+// std::map<int, int> returnClustersSize(std::vector<Point> _points);
+// void iterationStatus(int iteration, int pointsChanged);
 
 std::map<int, int> returnClustersSize(std::vector<Point> _points)
 {
