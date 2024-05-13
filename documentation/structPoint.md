@@ -1,62 +1,48 @@
 # Documentation for structPoint.hpp
 
-The `structPoint.hpp` file defines a `Point` structure, which is a fundamental component for representing points in N-dimensional space. This structure is versatile, supporting both data points and centroids within clustering algorithms such as k-means. Below is a detailed explanation of its components and usage.
+The `structPoint.hpp` header file defines the `Point` structure, which is a fundamental component in representing both data points and centroids within N-dimensional space for clustering algorithms. This structure encapsulates the coordinates of a point, its distance from the nearest centroid, and the cluster ID to which it belongs.
 
 ## Structure Overview
 
-### Attributes
+### `Point`
 
-- `coords`: A `std::vector<double>` representing the coordinates of the point in N-dimensional space.
-- `distance`: A `double` indicating the distance from the nearest centroid. It is initialized to `INT_MAX` for data points to signify that they are initially at an infinite distance from any centroid.
-- `cluster_id`: An `int` representing the ID of the cluster to which the point belongs. It is initialized to `-1` to indicate that the point is not yet assigned to any cluster.
+- **Attributes**:
+  - `std::vector<double> coords`: Represents the coordinates of the point in N-dimensional space.
+  - `double distance`: The Euclidean distance from the nearest centroid. It is initialized to `INT_MAX` for data points to signify that they are initially at an infinite distance from any centroid.
+  - `int cluster_id`: The ID of the cluster to which the point is assigned. It is initialized to `-1` to indicate that the point has not been assigned to any cluster.
 
 ### Constructors
 
-- **Vector Constructor**: Initializes a point with a given vector of coordinates. This is typically used for data points.
-- **Centroid Constructor**: Initializes a centroid with specified coordinates and a cluster ID. This is used for centroids in clustering algorithms.
-- **Default Constructor**: Initializes a point with no coordinates, maximum distance, and no cluster assigned.
-- **Initializer List Constructor**: Allows for easy inline initialization of points with an initializer list.
+- **Point(const std::vector<double>& coords, int cluster_id, double distance)**: Initializes a point with specified coordinates, cluster ID, and distance. This constructor is versatile for initializing both data points and centroids with all attributes.
+- **Point(std::initializer_list<double> list)**: Allows for easy initialization of a point with a list of coordinates. This constructor sets `distance` to `INT_MAX` and `cluster_id` to `-1`, making it suitable for data points.
+- **Point(const std::vector<double>& coords)**: Similar to the initializer list constructor but takes a vector of doubles. It sets `distance` to `INT_MAX` and `cluster_id` to `-1`.
+- **Point(const std::vector<double>& coords, int cluster_id)**: Initializes a centroid with specified coordinates and cluster ID. The `distance` is set to `0` as it is not relevant for centroids.
+- **Point()**: The default constructor initializes a point with no coordinates, maximum distance, and no cluster assigned.
 
-### Methods
+### Member Functions
 
-- `calcDist(const Point& other) const`: Calculates the Euclidean distance between this point and another point.
+- **double calcDist(const Point& other) const**: Calculates the Euclidean distance between this point and another point. This function is essential for clustering algorithms to determine the proximity of points to centroids.
+- **double CalcNorm() const**: Calculates the norm (magnitude) of the point, which can be useful for sorting or comparing points based on their distance from the origin.
 
-### Destructor
+### Operator Overloads
 
-- A default destructor is provided, which is a good practice for structures and classes that may be extended or used polymorphically.
+- **bool operator==(const Point& other) const**: Checks if two points are equal based on their coordinates.
+- **bool operator!=(const Point& other) const**: Checks if two points are not equal.
+- **bool operator<(const Point& other) const**: Compares two points based on their distance from the nearest centroid or, if unassigned, their norms.
+- **friend std::ostream& operator<<(std::ostream& os, const Point& p)**: Overloads the output stream operator to print the details of a point, including its cluster ID, distance, and coordinates.
 
-## Sample Usage
+## Example Outputs
 
-### Creating Points
+When using the `<<` operator to print a `Point` object, the output format will be as follows:
 
-```cpp
-// Creating a data point at coordinates (1.0, 2.0, 3.0)
-Point dataPoint({1.0, 2.0, 3.0});
+- For a point with coordinates `[1.0, 2.0, 3.0]`, cluster ID `1`, and distance `5.0`:
+  ```
+  cluster_id: 1, distance: 5, coords: [ 1 2 3 ]
+  ```
 
-// Creating a centroid for cluster 0 at coordinates (4.0, 5.0, 6.0)
-Point centroid({4.0, 5.0, 6.0}, 0);
-```
+- For an unassigned point with coordinates `[4.5, 5.5, 6.5]`:
+  ```
+  cluster_id: -1, distance: 2147483647, coords: [ 4.5 5.5 6.5 ]
+  ```
 
-### Calculating Distance Between Points
-
-```cpp
-double distance = dataPoint.calcDist(centroid);
-std::cout << "Distance between dataPoint and centroid: " << distance << std::endl;
-```
-
-### Accessing and Modifying Attributes
-
-```cpp
-// Accessing the coordinates of a point
-std::vector<double> coordinates = dataPoint.coords;
-
-// Modifying the cluster ID of a point
-dataPoint.cluster_id = 1; // Assigning to cluster 1
-
-// Checking the distance attribute (should be INT_MAX for unassigned data points)
-std::cout << "Initial distance from centroid: " << dataPoint.distance << std::endl;
-```
-
-## Conclusion
-
-The `Point` structure in `structPoint.hpp` is designed to be a flexible and intuitive way to represent points in N-dimensional space for clustering algorithms. Its attributes and methods provide all the necessary functionality for managing points, calculating distances, and handling cluster assignments. This makes it an essential component for any project involving spatial data and clustering techniques.
+This documentation provides a comprehensive overview of the `Point` structure defined in `structPoint.hpp`, detailing its purpose, constructors, member functions, and operator overloads, along with examples of expected outputs.

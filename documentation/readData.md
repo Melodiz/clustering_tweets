@@ -1,52 +1,53 @@
-# K-Means Clustering Algorithm
+# Documentation for readData.hpp
 
-The K-Means clustering algorithm is a method used to partition `n` observations into `k` clusters in which each observation belongs to the cluster with the nearest mean. This results in a partitioning of the data space into Voronoi cells. K-Means is a simple and widely-used clustering algorithm that can yield remarkable results with a relatively simple concept.
+The `readData.hpp` header file is designed to facilitate the reading of data from various file formats into a standardized format used within the application, specifically focusing on handling points for clustering algorithms. It supports reading from CSV, TXT, and NPY files, accommodating both raw and clustered data.
 
-## Overview
+## Functions Overview
 
-The algorithm iterates through two main steps to partition the data:
+### `read_data(std::string path)`
 
-1. **Assignment Step:** Each point (observation) is assigned to the nearest cluster center. The "nearest" is determined based on the distance metric, typically the Euclidean distance.
-2. **Update Step:** The centroids (cluster centers) are recalculated as the mean of all points assigned to the respective cluster.
+- **Purpose**: Determines the file type based on its extension and delegates the reading process to the corresponding function.
+- **Parameters**:
+  - `std::string path`: The path to the data file.
+- **Returns**: A `std::vector<Point>` containing the points read from the file.
+- **Expected Output**: A vector of `Point` objects, each representing a data point. The function automatically detects the file type and reads the data accordingly.
 
-These steps are repeated until the algorithm converges, meaning the assignments no longer change or the maximum number of iterations is reached.
+### `read_from_csv(std::string path)`
 
-## Functions and Their Roles
+- **Purpose**: Reads data from a CSV file. It can handle both raw data and data with cluster assignments (`cluster_id`) and distances.
+- **Parameters**:
+  - `std::string path`: The path to the CSV file.
+- **Returns**: A `std::vector<Point>` containing the points read from the CSV file.
+- **Expected Output**: For clustered data, each `Point` object in the returned vector will have its coordinates, `cluster_id`, and `distance` populated. For raw data, only the coordinates will be populated.
 
-### `initialize_random_centroids`
+### `read_from_txt(std::string path)`
 
-- **Purpose:** Initializes the centroids randomly from the dataset.
-- **Parameters:**
-  - `const std::vector<Point>& points`: The dataset from which centroids are to be chosen.
-  - `int k`: The number of clusters to form.
-- **Returns:** A vector of `Point` objects representing the initial centroids.
+- **Purpose**: Reads data from a TXT file, similar to the CSV reader, handling both raw and clustered data.
+- **Parameters**:
+  - `std::string path`: The path to the TXT file.
+- **Returns**: A `std::vector<Point>` containing the points read from the TXT file.
+- **Expected Output**: Similar to `read_from_csv`, the output depends on the data type. Clustered data results in `Point` objects with coordinates, `cluster_id`, and `distance`, while raw data results in `Point` objects with only coordinates.
 
-### `assignPointsToCentroids`
+### `read_from_npy(std::string path)`
 
-- **Purpose:** Assigns each point in the dataset to the nearest centroid.
-- **Parameters:**
-  - `std::vector<Point>& _points`: The dataset to be clustered.
-  - `std::vector<Point>& _centroids`: The current centroids.
-- **Returns:** The number of points that changed their cluster assignment in this iteration.
+- **Purpose**: Reads data from an NPY file, which is typically used for N-dimensional arrays. This function is tailored for reading raw data without cluster assignments.
+- **Parameters**:
+  - `std::string path`: The path to the NPY file.
+- **Returns**: A `std::vector<Point>` containing the points read from the NPY file.
+- **Expected Output**: A vector of `Point` objects with their coordinates populated from the NPY file. This function assumes raw data, so no `cluster_id` or `distance` is populated.
 
-### `recalculateCentroids`
+## Example Outputs
 
-- **Purpose:** Recalculates the position of each centroid based on the current assignments of points to clusters.
-- **Parameters:**
-  - `std::vector<Point>& _points`: The dataset, with each point assigned to a cluster.
-  - `std::vector<Point>& _centroids`: The centroids to be updated.
+- **CSV/TXT with Clustered Data**:
+  - Input: A CSV/TXT file with lines formatted as `cluster_id,distance,x,y,z,...`
+  - Output: A vector of `Point` objects where each object has `cluster_id`, `distance`, and coordinates `[x, y, z, ...]` populated.
 
-## Algorithm Steps
+- **CSV/TXT with Raw Data**:
+  - Input: A CSV/TXT file with lines formatted as `x,y,z,...`
+  - Output: A vector of `Point` objects with coordinates `[x, y, z, ...]` populated. `cluster_id` and `distance` are not applicable.
 
-1. **Initialization:** Select `k` points as the initial centroids using `initialize_random_centroids`.
-2. **Assignment:** Assign each point to the nearest centroid using `assignPointsToCentroids`.
-3. **Update:** Recalculate the centroids based on the current cluster assignments using `recalculateCentroids`.
-4. **Repeat:** Steps 2 and 3 are repeated until the centroids no longer change significantly or a predetermined number of iterations is reached.
+- **NPY File**:
+  - Input: An NPY file containing an N-dimensional array.
+  - Output: A vector of `Point` objects with coordinates populated from the array. Each `Point` corresponds to a row in the NPY array.
 
-## Convergence
-
-The algorithm is said to have converged when the assignments no longer change. However, it's important to note that K-Means may converge to a local minimum, and the result may depend on the initial choice of centroids. Therefore, it's common practice to run the algorithm multiple times with different initializations and choose the best outcome based on a criterion, such as the sum of squared distances between points and their respective centroids.
-
-## Complexity
-
-The computational complexity of K-Means is generally linear with respect to the number of objects, the number of clusters, and the number of dimensions, making it relatively scalable to large datasets. However, the need to potentially run multiple iterations to avoid local minima can increase the computational cost.
+This documentation outlines the functionality provided by `readData.hpp` for reading and processing data from various file types into a uniform format suitable for clustering algorithms.

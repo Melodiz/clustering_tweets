@@ -1,46 +1,59 @@
-# Documentation for clusterTools.hpp
+# Documentation for ClusterTools
 
-The `clusterTools.hpp` header file provides utility functions for clustering algorithms, particularly useful in the context of k-means or similar clustering methods. This documentation outlines the functionalities provided by `clusterTools.hpp`, including calculating the size of clusters and displaying iteration status during the clustering process.
+The `ClusterTools` module provides a set of utility functions designed to assist in the clustering process, particularly with KMeans clustering. These functions facilitate the tracking and debugging of the clustering process by providing insights into the distribution of data points across clusters, the progress of iterations, and a detailed view of the current state of centroids and points.
 
 ## Functions
 
-### `returnClustersSize(std::vector<Point> _points)`
+### `returnClustersSize`
 
-This function calculates the size of each cluster based on the cluster IDs assigned to each point in the dataset.
+- **Description**: This function calculates the size of each cluster by counting the number of points belonging to each cluster.
+- **Parameters**: `std::vector<Point> _points` - A vector of `Point` objects, where each `Point` represents a data point in the clustering space and contains a `cluster_id` indicating its current cluster assignment.
+- **Returns**: `std::map<int, int>` - A map where the key is the `cluster_id` and the value is the count of points in that cluster.
+- **Example Output**:
+  ```
+  Cluster 0: 150
+  Cluster 1: 123
+  Cluster 2: 127
+  ```
+  This output indicates that there are three clusters with IDs 0, 1, and 2, containing 150, 123, and 127 points, respectively.
 
-- **Parameters:**
-  - `_points`: A vector of `Point` objects, where each `Point` has a `cluster_id` attribute indicating its cluster assignment.
-- **Returns:** A `std::map<int, int>` where each key-value pair represents a cluster ID and its corresponding size (number of points assigned to the cluster).
+### `iterationStatus`
 
-#### Usage Example
+- **Description**: Prints the status of the current iteration during the clustering process, including the iteration number and the number of points that changed their cluster assignment in that iteration.
+- **Parameters**:
+  - `int iteration` - The current iteration number.
+  - `int pointsChanged` - The number of points that changed their cluster assignment in the current iteration.
+- **Output**: A string indicating the iteration number and the number of points changed, printed to the standard output.
+- **Example Output**:
+  ```
+  Iteration: 5, Points changed: 321
+  ```
+  This output signifies that in iteration 5, a total of 321 points changed their cluster assignment.
 
-```cpp
-std::vector<Point> points = ...; // Assume this is populated with Point objects having cluster_ids
-std::map<int, int> clusterSizes = returnClustersSize(points);
+### `debugShowFullData`
 
-for (const auto& pair : clusterSizes) {
-    std::cout << "Cluster ID: " << pair.first << ", Size: " << pair.second << std::endl;
-}
-```
+- **Description**: Provides a detailed view of the current state of centroids and points, useful for debugging purposes. It prints the coordinates of centroids and points, along with their cluster assignments.
+- **Parameters**:
+  - `std::vector<Point> _points` - A vector of `Point` objects representing the data points.
+  - `std::vector<Point> _centroids` - A vector of `Point` objects representing the centroids of the clusters.
+- **Output**: A detailed listing of centroids and points, including their coordinates and cluster assignments, printed to the standard output.
+- **Example Output**:
+  ```
+  -------------------------------------------------------
+  Centroids:
+  [1.5, 2.5, 3.5] Cluster ID: 0
+  [4.5, 5.5, 6.5] Cluster ID: 1
+  [7.5, 8.5, 9.5] Cluster ID: 2
 
-### `iterationStatus(int iteration, int pointsChanged)`
+  Points:
+  [1, 2, 3] Cluster ID: 0
+  [4, 5, 6] Cluster ID: 1
+  [7, 8, 9] Cluster ID: 2
+  ...
+  -------------------------------------------------------
+  ```
+  This output shows the coordinates of each centroid and point, along with their respective cluster IDs. The ellipsis (`...`) indicates that the list of points continues.
 
-Displays the status of the current iteration during the clustering process, including the iteration number and the number of points that changed clusters since the last iteration.
+## Usage
 
-- **Parameters:**
-  - `iteration`: The current iteration number.
-  - `pointsChanged`: The number of points that have changed their cluster assignment in the current iteration.
-- **Returns:** Void. The function outputs the status directly to the standard output.
-
-#### Usage Example
-
-```cpp
-int currentIteration = 5;
-int pointsChanged = 321;
-iterationStatus(currentIteration, pointsChanged);
-// Output: "Iteration: 5, Points changed: 321"
-```
-
-## Conclusion
-
-The `clusterTools.hpp` file provides essential utilities for managing and monitoring the progress of clustering algorithms. By calculating cluster sizes and displaying iteration statuses, it aids in understanding the clustering dynamics and evaluating the algorithm's convergence. These tools are invaluable for debugging and optimizing clustering processes.
+These functions are primarily used for monitoring and debugging the KMeans clustering process. They help in understanding how data points are distributed across clusters, how the clustering process progresses over iterations, and provide a detailed snapshot of the current state of the clustering, which is invaluable for debugging and optimization purposes.

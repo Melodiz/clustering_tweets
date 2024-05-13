@@ -1,72 +1,66 @@
-# `writeData.h` Module Documentation
+# Documentation for writeData.hpp
 
-## Overview
+The `writeData.hpp` header file provides functionality to save clustering results and centroids to various file formats, including CSV, TXT, and NPY. It supports saving with or without point coordinates, depending on the requirements of the analysis or further processing needs.
 
-The `writeData.h` module is designed to facilitate the saving of clustering results, including both individual points and centroids, to various file formats. It supports CSV, NPY, and TXT formats, providing flexibility in how data is exported for further analysis or visualization.
+## Functions Overview
 
-## Functions
+### Saving Clustering Results
 
-### `save_result`
+- **`save_result_to_csv`**: Saves clustering results to a CSV file. If `_with_coordinates` is true, it includes the coordinates of each point along with its cluster ID and distance to the nearest centroid.
 
-- **Description:** Determines the file format based on the file extension and delegates the saving of clustering results to the appropriate function. Parameters taken from KMeans(ND) Class
-- **Parameters:**
-  - `const std::string& _resultPath`: The path to the output file.
-  - `const std::vector<Point>& _points`: A vector of `Point` objects representing the clustered points.
-  - `const std::vector<Point>& _centroids`: A vector of `Point` objects representing the centroids of the clusters.
-  - `bool _with_coordinates`: A boolean flag indicating whether to include the coordinates of each point in the output. Defaults to `false`.
-- **Supported Formats:** CSV, NPY, TXT.
+- **`save_result_to_txt`**: Saves clustering results to a TXT file. Similar to the CSV function, it can include coordinates if `_with_coordinates` is set to true.
 
-### `save_centroids`
+- **`save_result_to_npy`**: Saves clustering results to an NPY file, a binary file format for persisting numpy arrays. This function is particularly useful for Python-based data analysis workflows.
 
-- **Description:** Determines the file format based on the file extension and delegates the saving of centroids to the appropriate function. Parameters taken from KMeans(ND) Class
-- **Parameters:**
-  - `std::string _resultPath`: The path to the output file.
-  - `const std::vector<Point>& _centroids`: A vector of `Point` objects representing the centroids.
-- **Supported Formats:** CSV, NPY, TXT.
+### Saving Centroids
 
-### `save_result_to_csv`
+- **`save_centroids_to_csv`**: Saves the centroids to a CSV file, including their cluster ID, distance (usually zero as it's a centroid), and coordinates.
 
-- **Description:** Saves clustering results to a CSV file. It can optionally include the coordinates of each point.
-- **Parameters:**
-  - `const std::string& _resultPath`: The path to the output CSV file.
-  - `const std::vector<Point>& _points`: A vector of `Point` objects representing the clustered points.
-  - `const std::vector<Point>& _centroids`: A vector of `Point` objects representing the centroids of the clusters.
-  - `bool _with_coordinates`: A boolean flag indicating whether to include the coordinates of each point in the output. Defaults to `false`.
+- **`save_centroids_to_txt`**: Similar to the CSV function, but saves the centroids to a TXT file.
 
-### `save_centroids_to_csv`
+- **`save_centroids_to_npy`**: Saves the centroids to an NPY file, useful for numpy-based processing.
 
-- **Description:** Saves centroids to a CSV file, including their coordinates.
-- **Parameters:**
-  - `const std::string& _resultPath`: The path to the output CSV file.
-  - `const std::vector<Point>& _centroids`: A vector of `Point` objects representing the centroids.
+### General Saving Functions
 
-### `save_result_to_txt`
+- **`save_result`**: Determines the file type based on its extension and calls the appropriate function to save clustering results. It supports CSV, TXT, and NPY formats.
 
-- **Description:** Saves clustering results to a TXT file. It can optionally include the coordinates of each point.
-- **Parameters:**
-  - `const std::string& _resultPath`: The path to the output TXT file.
-  - `const std::vector<Point>& _points`: A vector of `Point` objects representing the clustered points.
-  - `const std::vector<Point>& _centroids`: A vector of `Point` objects representing the centroids of the clusters.
-  - `bool _with_coordinates`: A boolean flag indicating whether to include the coordinates of each point in the output. Defaults to `false`.
+- **`save_centroids`**: Similar to `save_result`, but specifically for saving centroids to the chosen file format based on the file extension.
 
-### `save_centroids_to_txt`
+## Expected Outputs
 
-- **Description:** Saves centroids to a TXT file, including their coordinates.
-- **Parameters:**
-  - `const std::string& _resultPath`: The path to the output TXT file.
-  - `const std::vector<Point>& _centroids`: A vector of `Point` objects representing the centroids.
+### CSV/TXT Output Format
 
-### `save_result_to_npy`
+When saving with coordinates (`_with_coordinates = true`), the output format for both CSV and TXT files will include headers followed by the data rows. For example:
 
-- **Description:** Saves clustering results to an NPY file. This function is designed to handle data with coordinates.
-- **Parameters:**
-  - `const std::string& _resultPath`: The path to the output NPY file.
-  - `const std::vector<Point>& _points`: A vector of `Point` objects representing the clustered points.
-  - `const std::vector<Point>& _centroids`: A vector of `Point` objects representing the centroids of the clusters.
-  - `bool _with_coordinates`: A boolean flag indicating whether to include the coordinates of each point in the output. This parameter is considered in the context of the function but is particularly relevant for NPY format due to its nature of handling numerical data arrays.
+```
+cluster_id,distance,x0,x1,x2,...
+0,0.0,1.2,2.3,3.4,...
+1,0.1,4.5,5.6,6.7,...
+...
+```
 
-## Additional Notes
+Without coordinates, the output will only include the cluster ID and distance:
 
-- The module relies on the `npy.hpp` library for NPY file operations, which provides an interface for reading and writing Numpy-compatible files in C++.
-- The `structPoint.h` header is required for the definition of the `Point` structure, which encapsulates the data for individual points and centroids, including their cluster assignments, distances, and coordinates.
-- Error handling is implemented for file operations, with the program exiting upon failure to open the specified output file path.
+```
+cluster_id,distance
+0,0.0
+1,0.1
+...
+```
+
+### NPY Output
+
+The NPY file is a binary format and will not be human-readable. However, when loaded using numpy in Python, it will represent an array where each row corresponds to a point or centroid, including its cluster ID, distance, and coordinates (if saved with coordinates).
+
+## Usage Example
+
+To save clustering results to a CSV file with coordinates:
+
+```cpp
+std::vector<Point> points = {/* Populate with clustering results */};
+std::vector<Point> centroids = {/* Populate with centroids */};
+std::string resultPath = "clustering_results.csv";
+save_result(resultPath, points, centroids, true);
+```
+
+This will create a CSV file named `clustering_results.csv` with each point's cluster ID, distance to its centroid, and coordinates.

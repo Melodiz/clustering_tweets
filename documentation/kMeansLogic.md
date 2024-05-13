@@ -1,52 +1,40 @@
-# K-Means Clustering Algorithm
+# Documentation for KMeansLogic.hpp
 
-The K-Means clustering algorithm is a method used to partition `n` observations into `k` clusters in which each observation belongs to the cluster with the nearest mean. This results in a partitioning of the data space into Voronoi cells. K-Means is a simple and widely-used clustering algorithm that can yield remarkable results with a relatively simple concept.
+The `KMeansLogic.hpp` header file encapsulates the core logic for the KMeans clustering algorithm. It defines functions essential for initializing centroids, assigning points to the nearest centroids, and recalculating centroids based on the current cluster assignments. This documentation outlines the purpose, parameters, and expected outputs of these functions.
 
-## Overview
-
-The algorithm iterates through two main steps to partition the data:
-
-1. **Assignment Step:** Each point (observation) is assigned to the nearest cluster center. The "nearest" is determined based on the distance metric, typically the Euclidean distance.
-2. **Update Step:** The centroids (cluster centers) are recalculated as the mean of all points assigned to the respective cluster.
-
-These steps are repeated until the algorithm converges, meaning the assignments no longer change or the maximum number of iterations is reached.
-
-## Functions and Their Roles
+## Functions Overview
 
 ### `initialize_random_centroids`
 
-- **Purpose:** Initializes the centroids randomly from the dataset.
-- **Parameters:**
+- **Purpose**: Initializes a set of `k` centroids randomly selected from the given dataset.
+- **Parameters**:
   - `const std::vector<Point>& points`: The dataset from which centroids are to be chosen.
-  - `int k`: The number of clusters to form.
-- **Returns:** A vector of `Point` objects representing the initial centroids.
+  - `int k`: The number of centroids (clusters) to initialize.
+- **Returns**: `std::vector<Point>` representing the initialized centroids.
+- **Expected Output**: A vector of `Point` objects, each representing an initialized centroid. These centroids are randomly selected from the dataset, ensuring no duplicates.
 
 ### `assignPointsToCentroids`
 
-- **Purpose:** Assigns each point in the dataset to the nearest centroid.
-- **Parameters:**
-  - `std::vector<Point>& _points`: The dataset to be clustered.
-  - `std::vector<Point>& _centroids`: The current centroids.
-- **Returns:** The number of points that changed their cluster assignment in this iteration.
+- **Purpose**: Assigns each point in the dataset to the nearest centroid based on Euclidean distance.
+- **Parameters**:
+  - `std::vector<Point>& _points`: The dataset, where each `Point` will be assigned a `cluster_id` corresponding to the nearest centroid.
+  - `const std::vector<Point>& _centroids`: The current set of centroids.
+- **Returns**: `int` representing the number of points that changed their cluster assignment in this iteration.
+- **Expected Output**: The number of points that have been reassigned to a different cluster. This function also updates each `Point` in `_points` with a new `cluster_id` and `distance` to the nearest centroid.
 
 ### `recalculateCentroids`
 
-- **Purpose:** Recalculates the position of each centroid based on the current assignments of points to clusters.
-- **Parameters:**
-  - `std::vector<Point>& _points`: The dataset, with each point assigned to a cluster.
-  - `std::vector<Point>& _centroids`: The centroids to be updated.
+- **Purpose**: Updates the position of each centroid to the mean position of all points assigned to it.
+- **Parameters**:
+  - `const std::vector<Point>& _points`: The dataset, with each `Point` already assigned to a centroid.
+  - `std::vector<Point>& _centroids`: The current set of centroids to be updated.
+- **Returns**: None. This function directly modifies the `_centroids` vector.
+- **Expected Output**: Centroids are moved to the average position of all points assigned to their cluster. This step is crucial for the iterative improvement of cluster assignments.
 
-## Algorithm Steps
+## Example Outputs
 
-1. **Initialization:** Select `k` points as the initial centroids using `initialize_random_centroids`.
-2. **Assignment:** Assign each point to the nearest centroid using `assignPointsToCentroids`.
-3. **Update:** Recalculate the centroids based on the current cluster assignments using `recalculateCentroids`.
-4. **Repeat:** Steps 2 and 3 are repeated until the centroids no longer change significantly or a predetermined number of iterations is reached.
+- **initialize_random_centroids**: Given a dataset of 100 points and `k=3`, this function might return a vector containing 3 `Point` objects selected randomly from the dataset.
+- **assignPointsToCentroids**: After the initial assignment of 100 points to 3 centroids, this function might return `95`, indicating that 95 points were assigned to a centroid different from their previous assignment.
+- **recalculateCentroids**: This function does not return a value but would result in the centroids' positions being updated to reflect the mean position of their assigned points. For example, if centroid 1 initially had coordinates (2, 3) and after assignment, the mean coordinates of its assigned points are (4, 5), the centroid's new position would be updated to (4, 5).
 
-## Convergence
-
-The algorithm is said to have converged when the assignments no longer change. However, it's important to note that K-Means may converge to a local minimum, and the result may depend on the initial choice of centroids. Therefore, it's common practice to run the algorithm multiple times with different initializations and choose the best outcome based on a criterion, such as the sum of squared distances between points and their respective centroids.
-
-## Complexity
-
-The computational complexity of K-Means is generally linear with respect to the number of objects, the number of clusters, and the number of dimensions, making it relatively scalable to large datasets. However, the need to potentially run multiple iterations to avoid local minima can increase the computational cost.
+These functions work together to implement the KMeans clustering algorithm, iteratively improving the cluster assignments until the algorithm converges (i.e., when the number of points changing clusters between iterations falls to zero or a predefined threshold).
