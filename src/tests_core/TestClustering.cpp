@@ -2,6 +2,7 @@
 #include "TestReadData.hpp"
 #include "TestStructPoint.hpp"
 #include "TestWriteData.hpp"
+#include "TestKMeansND.hpp"
 
 
 int main()
@@ -14,6 +15,8 @@ int main()
 
     TestReadData().runTests();
     TestWriteData().runTests();
+
+    TestKMeansND().runTests();
 
     return 0;
 }

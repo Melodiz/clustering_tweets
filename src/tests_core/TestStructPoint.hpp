@@ -16,13 +16,19 @@ public:
     static void runTests()
     {
         std::cout << "Running Point structure tests..." << std::endl;
-        testConstructors();
+        testDefaultConstructor();
+        testListConstructor();
+        testVectorConstructor();
+        testCentroidConstructor();
+        testInitializeListConstructor();
+        testMixedConstructor();
         testDistanceCalculation();
         testCalcNorm();
         testEqualityOperator();
         testInequalityOperator();
         testLessThanOperator();
-        std::cout << "All TestPoint tests passed.\n" << std::endl;
+        std::cout << "All TestPoint tests passed.\n"
+                  << std::endl;
     }
 
 protected:
@@ -39,24 +45,76 @@ protected:
         std::cout << "Test passed: Distance calculation." << std::endl;
     }
 
-    static void testConstructors()
+    static void testDefaultConstructor()
     {
-        Point defaultPoint;
-        assert(defaultPoint.coords.empty());
-        assert(defaultPoint.distance == INT_MAX);
-        assert(defaultPoint.cluster_id == -1);
-
-        Point listPoint({1.0, 2.0});
-        assert(listPoint.coords.size() == 2);
-        assert(listPoint.coords[0] == 1.0 && listPoint.coords[1] == 2.0);
-
-        Point vectorPoint(std::vector<double>{3.0, 4.0}, 1);
-        assert(vectorPoint.cluster_id == 1);
-        assert(std::abs(vectorPoint.distance - 0) < 1e-9);
-        assert(vectorPoint.coords[0] == 3.0 && vectorPoint.coords[1] == 4.0);
-
-        std::cout << "Test passed: Point constructors." << std::endl;
+        Point p;
+        assert(p.coords.empty());
+        assert(p.distance == INT_MAX);
+        assert(p.cluster_id == -1);
+        std::cout << "Test passed: Default constructor." << std::endl;
     }
+
+    static void testListConstructor()
+    {
+        Point p({1.0, 2.0, 3.0});
+        assert(p.coords.size() == 3);
+        assert(p.coords[0] == 1.0 && p.coords[1] == 2.0 && p.coords[2] == 3.0);
+        assert(p.distance == INT_MAX);
+        assert(p.cluster_id == -1);
+        std::cout << "Test passed: List constructor." << std::endl;
+    }
+
+    static void testVectorConstructor()
+    {
+        std::vector<double> coords = {4.0, 5.0, 6.0};
+        Point p(coords);
+        assert(p.coords == coords);
+        assert(p.distance == INT_MAX);
+        assert(p.cluster_id == -1);
+        std::cout << "Test passed: Vector constructor." << std::endl;
+    }
+
+    static void testCentroidConstructor()
+    {
+        std::vector<double> coords = {7.0, 8.0, 9.0};
+        int cluster_id = 1;
+        Point p(coords, cluster_id);
+        assert(p.coords == coords);
+        assert(p.distance == 0);// Centroid distance initialized to 0
+        assert(p.cluster_id == cluster_id);
+        std::cout << "Test passed: Centroid constructor." << std::endl;
+    }
+
+    static void testInitializeListConstructor()
+    {
+        std::vector<Point> points = {Point({1.0, 2.0}), Point({3.0, 4.5}), Point({5.0, 6.0})};
+        assert(points[0].coords[0] == 1.0 && points[0].coords[1] == 2.0);
+        assert(points[1].coords[0] == 3.0 && points[1].coords[1] == 4.5);
+        assert(points[2].coords[0] == 5.0 && points[2].coords[1] == 6.0);
+        assert(points[0].distance == INT_MAX && points[1].distance == INT_MAX && points[2].distance == INT_MAX);
+        assert(points[0].cluster_id == -1 && points[1].cluster_id == -1 && points[2].cluster_id == -1);
+        std::cout << "Test passed: Initialize list constructor." << std::endl;
+    }
+
+    static void testMixedConstructor()
+    {
+        std::vector<Point> points = {
+                Point({1.0, 2.0}),
+                Point({3.0, 4.5}, 1),
+                Point({5.0, 6.0}, 2),
+                Point({7, 2, 3, 4}, 3),
+                Point({7, 2, 3, 4}, 3, 3.2)};
+
+        assert(points[0].coords[0] == 1.0 && points[0].coords[1] == 2.0);
+        assert(points[1].coords[0] == 3.0 && points[1].coords[1] == 4.5);
+        assert(points[2].coords[0] == 5.0 && points[2].coords[1] == 6.0);
+        assert(points[3].coords[0] == 7 && points[3].coords[1] == 2 && points[3].coords[2] == 3 && points[3].coords[3] == 4);
+        assert(points[4].coords[0] == 7 && points[4].coords[1] == 2 && points[4].coords[2] == 3 && points[4].coords[3] == 4);
+        assert(points[4].distance == 3.2);
+        assert(points[4].cluster_id == 3);
+        std::cout << "Test passed: Mixed constructor." << std::endl;
+    }
+
     static void testCalcNorm()
     {
         Point p({3, 4});

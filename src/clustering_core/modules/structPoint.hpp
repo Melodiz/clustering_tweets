@@ -25,6 +25,7 @@ struct Point {
      * @param coords A vector of doubles representing the coordinates of the point in N-dimensional space.
      * This constructor is typically used for initializing data points.
      */
+    Point(std::initializer_list<double> list) : coords(list), distance(INT_MAX), cluster_id(-1){};
     Point(const std::vector<double>& coords) : coords(coords), distance(INT_MAX), cluster_id(-1){};
     /**
      * @brief Constructor for creating a centroid with specified coordinates and cluster ID.
@@ -32,20 +33,13 @@ struct Point {
      * @param cluster_id An integer representing the unique ID of the cluster.
      * This constructor is used for initializing centroids.
      */
-    Point(const std::vector<double>& coords, int cluster_id) : coords(coords), distance(0), cluster_id(cluster_id){};
 
+    Point(const std::vector<double>& coords, int cluster_id) : coords(coords), distance(0), cluster_id(cluster_id){};
     /**
      * @brief Default constructor.
      * Initializes a point with no coordinates, maximum distance, and no cluster assigned.
      */
     Point() : distance(INT_MAX), cluster_id(-1), coords({}){};
-
-    /**
-     * @brief Constructor for creating a point from an initializer list.
-     * @param list An initializer list of doubles representing the coordinates of the point.
-     * This constructor allows for easy inline initialization of points.
-     */
-    Point(std::initializer_list<double> list) : coords(list) {}
 
     /**
      * @brief Calculates the Euclidean distance between this point and another point.
@@ -102,7 +96,9 @@ struct Point {
         os << "cluster_id: " << p.cluster_id << ", distance: " << p.distance;
         os << ", coords: [ ";
         for (int i = 0; i < p.coords.size(); i++)
-        { os << p.coords[i] << " "; }
+        {
+            os << p.coords[i] << " ";
+        }
         os << "]";
         return os;
     }
