@@ -62,3 +62,7 @@ pip install -r requirements.txt
 
 download [ollama](https://ollama.com/download/mac), and follow the instructions
 make sure that you have to initialize ollama before running the emmbedding algorithm
+
+## to install g-tests
+
+follow the [instructions](https://stackoverflow.com/questions/15852631/how-to-install-gtest-on-mac-os-x-with-homebrew). Proper, portable usage will be implemented later. (Like built-in CMake files.)

@@ -1,53 +1,75 @@
-### KMeansND Class Documentation
+# Documentation for KMeansND.hpp
 
-#### Overview
+The `KMeansND.hpp` file defines the `KMeansND` class, which implements the K-Means clustering algorithm for N-dimensional data. This class provides methods for initializing the clustering process, executing the algorithm, and saving the results.
 
-The `KMeansND` class implements the K-Means clustering algorithm for N-dimensional data points. It is designed to cluster a given set of points into `k` clusters, where `k` is a parameter specified by the user. The class supports reading data from CSV, NPY, and TXT files and writing the clustering results and centroids to the same formats.
+## Class Overview
 
-#### Constructors
+### Constructors
 
-- `KMeansND(int k, int max_iter, std::string pointsPath, std::string centroidsPath, std::string resultPath)`: Initializes the KMeansND object with the specified number of clusters (`k`), maximum iterations (`max_iter`), and paths for input points, output centroids, and results.
-- `KMeansND(int k, int max_iter, std::vector<Point> points)`: Initializes the KMeansND object with the specified number of clusters, maximum iterations, and a vector of points.
-- `KMeansND(int k, int max_iter)`: Initializes the KMeansND object with the specified number of clusters and maximum iterations, without specifying data paths or points initially.
+- **`KMeansND(int k, int max_iter, std::string pointsPath, std::string centroidsPath, std::string resultPath)`**: Initializes the KMeansND object with the number of clusters (`k`), maximum iterations (`max_iter`), and paths for points, centroids, and results. It reads the initial points from the specified path and initializes random centroids.
 
-#### Public Methods
+- **`KMeansND(int k, int max_iter, std::vector<Point> points)`**: Initializes the KMeansND object with `k`, `max_iter`, and a vector of `Point` objects. It uses the provided points to initialize random centroids.
 
-- `void run()`: Executes the K-Means clustering algorithm, saves the results, and centroids to the specified paths.
-- `void setPoints(std::vector<Point> points)`: Sets the points to be clustered.
-- `std::vector<Point> getPoints()`: Returns the points that are being clustered.
-- `std::vector<Point> getCentroids()`: Returns the centroids of the clusters.
-- `void setCentroids(std::vector<Point> centroids)`: Sets the centroids manually.
-- `void setMaxIter(int max_iter)`: Sets the maximum number of iterations for the clustering algorithm.
-- `void setPointsPath(std::string pointsPath)`: Sets the path for the input points file.
-- `void setCentroidsPath(std::string centroidsPath)`: Sets the path for the output centroids file.
-- `void setResultPath(std::string resultPath)`: Sets the path for the output results file.
-- `void setWithCoordinates(bool with_coordinates)`: Specifies whether to include coordinates in the output file.
-- `void setK(int k)`: Sets the number of clusters.
-- `std::map<int, int> getClustersSize()`: Returns a map where the keys are cluster IDs and the values are the sizes of the clusters.
+- **`KMeansND(int k, int max_iter)`**: Initializes the KMeansND object with `k` and `max_iter` but without initial points or paths. Points and paths must be set using setter methods before clustering.
 
-#### Protected Methods
+### Methods
 
-- `void kMeansClustering()`: The core method that performs the K-Means clustering algorithm.
-- `int assignPointsToClusters()`: Assigns each point to the nearest cluster and returns the number of points that changed clusters.
-- `void recalculateCentroids()`: Recalculates the centroids of the clusters based on the current cluster assignments.
-- `void save_result()`: Saves the clustering results to the specified path.
-- `void save_centroids()`: Saves the centroids to the specified path.
+- **`void Cluster(bool showStatus)`**: Executes the K-Means clustering algorithm. If `showStatus` is true, it prints the status of each iteration.
 
-#### Utility Functions
+- **`void save()`**: Saves the clustering results and centroids to the specified paths. The format (CSV, TXT, etc.) and inclusion of coordinates are determined by the object's properties.
 
-- `std::vector<Point> read_data(std::string path)`: Reads data from the specified path and returns a vector of points.
-- `std::vector<Point> initialize_random_centroids(const std::vector<Point>& points, int k)`: Initializes `k` random centroids from the given points.
+- **Setters and Getters**: Methods to set and get properties of the KMeansND object, including the number of clusters (`k`), maximum iterations (`max_iter`), paths for points, centroids, and results, and whether to include coordinates in the output.
 
-#### Structs
+### Protected and Public Members
 
-- `Point`: Represents an N-dimensional point with coordinates, distance from centroid, and cluster ID.
+- **`_k`**: The number of clusters.
+- **`_max_iter`**: The maximum number of iterations to run the algorithm.
+- **`_with_coordinates`**: A flag indicating whether to include point coordinates in the output.
+- **`_centroids`**: A vector of `Point` objects representing the centroids.
+- **`_pointsPath`, `_centroidsPath`, `_resultPath`**: Paths for input points, output centroids, and output results, respectively.
+- **`_points`**: A vector of `Point` objects representing the data points.
 
-#### Dependencies
+## Expected Outputs
 
-- `<vector>`, `<string>`, `<map>`, `<fstream>`, `<iostream>`, `<cmath>`, `<algorithm>`, `<chrono>`, `<random>`, and `"include/npy.hpp"` for NPY file handling.
+### Clustering Process
 
-#### Notes
+When the `Cluster` method is called with `showStatus = true`, the console output will show the progress of the clustering process, including the current iteration and the number of points that changed clusters. For example:
 
-- The class is designed to be flexible, allowing for initialization with data paths or directly with a vector of points.
-- The algorithm supports outputting results with or without point coordinates, based on the `_with_coordinates` flag.
-- The class checks for file types based on extensions and supports `.csv`, `.npy`, and `.txt` formats for both input and output.
+```
+Iteration 1: 150 points changed clusters.
+Iteration 2: 50 points changed clusters.
+...
+Clustering finished
+```
+
+### Saving Results
+
+The `save` method does not produce console output but saves the clustering results and centroids to the specified paths. The format and content depend on the file type and whether coordinates are included. For example, a CSV file saved with coordinates might look like this:
+
+```
+cluster_id,distance,x,y,z,...
+0,0.123,1.2,2.3,3.4,...
+1,0.456,4.5,5.6,6.7,...
+...
+```
+
+And a centroids file might contain:
+
+```
+x,y,z,...
+2.1,3.2,4.3,...
+5.4,6.5,7.6,...
+...
+```
+
+## Usage Example
+
+To use the `KMeansND` class, you would typically instantiate it with the desired parameters, call the `Cluster` method to perform clustering, and then call `save` to write the results:
+
+```cpp
+KMeansND kmeans(3, 100, "path/to/points.csv", "path/to/centroids.csv", "path/to/results.csv");
+kmeans.Cluster(true);
+kmeans.save();
+```
+
+This example initializes a KMeansND object for 3 clusters and a maximum of 100 iterations, performs clustering on data read from "path/to/points.csv", and saves the results and centroids to the specified paths.
