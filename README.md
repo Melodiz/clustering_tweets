@@ -1,68 +1,81 @@
-# Short description of the project
+```markdown
+# Project Overview
 
-## Data
+## Data Source
 
-We obtained the data from [Kaggle](https://www.kaggle.com/datasets/pavellexyr/the-reddit-climate-change-dataset). This dataset contains all the posts and comments on Reddit mentioning the terms "climate" and "change" up until 2022-09-01.
+The dataset was sourced from [Kaggle](https://www.kaggle.com/datasets/pavellexyr/the-reddit-climate-change-dataset), comprising all Reddit posts and comments that mentioned "climate" and "change" up to September 1, 2022.
 
 ## Embedding Logic
 
-To run the model locally, we used Ollama. Due to limited computing power, we utilized the "all-minilm" embedding model. The first 10,000 comments from the initial data were transformed into embeddings using the script in embeddings_code/transformer.py.
+For local model execution, we utilized Ollama with the "all-minilm" embedding model due to limited computing resources. The first 10,000 comments from the dataset were transformed into embeddings using the script located in `embeddings_code/transformer.py`.
 
 ```python
 ollama_embedding = OllamaEmbedding(
     model_name="all-minilm",
-    base_url="<http://localhost:11434>",
+    base_url="http://localhost:11434",
     ollama_additional_kwargs={"mirostat": 0},
 )
 ```
 
-The resulting embeddings were saved to data/train_embeddings.npy.
+The embeddings were stored in `data/train_embeddings.npy`.
 
-### Note
+### Future Considerations
 
-In the future we will probably rent a server with high computing power to turn the rest of the comments into embeddings. It is also possible that a more accurate model such as Mistral will be used.
+We plan to lease a high-performance server for processing the remaining comments into embeddings. A more precise model, such as Mistral, may also be considered.
 
-## Clustering Logic
+## Clustering
 
-For clustering, we implemented the k-means clustering algorithm from scratch. Initially, we used clustering_core/k-means-N_dim.cpp for embedding, but due to time constraints with larger datasets, we switched to using t-SNE for dimensionality reduction. The 2D k-means implementation can be found in clustering_core/k-means2D.cpp. The clustering results are saved in data/train_embeddings_clusters.csv, including cluster names and distances of each point from the cluster centroids.
+Clustering functionality is implemented in `src/clustering_core/`. The `KmeansND.hpp` file contains the KMeansND class, which handles reading, writing, k-means clustering, and other functionalities imported from `src/clustering_core/modules`. This structure adheres to the S.O.L.I.D principles.
 
-## GUI
+Each function within KMeansND, as well as KMeansND itself, is tested in `src/tests_core/`. Comprehensive documentation is available in the `documentation/` directory.
 
-**This part of the project has not been implemented yet.** The choice of framework for building the GUI is pending. However, planned features include:
+### Clustering Algorithm Examples
+- ![Clustering of projected embeddings](data/samples/after_T-SNE.png)
+- ![Clustering of raw embeddings, projected](data/samples/rawClustering.png)
 
-- Determining the most prevalent opinion over a specific time period.
-- Creating an interactive 2D scatter plot using t-SNE.
-- Assigning clusters to new comments.
+#### Note
+
+Clustering prior to applying t-SNE may appear unclear, but ideally, it enhances accuracy. Nonetheless, clustering in a space with 500+ dimensions is computationally intensive and time-consuming.
+
+## GUI Development
+
+**This section is pending implementation.** The framework selection for the GUI is still under consideration. Planned features include:
+
+- Identifying the most prevalent opinions within specific time frames.
+- Generating interactive 2D scatter plots with t-SNE.
+- Assigning new comments to clusters.
 - Displaying neighboring clusters for new comments.
-- Naming clusters using the LLM model (e.g., Mistral).
-- Providing information about each cluster, such as size and similarities.
-- Displaying the top 10 comments for each cluster based on position and upvotes.
-- Generating plots related to data and clusters, such as popular, unpopular, and controversial comments.
+- Naming clusters using LLM models (e.g., Mistral).
+- Providing detailed information about each cluster, such as size and commonalities.
+- Showcasing the top 10 comments for each cluster, sorted by position and upvotes.
+- Creating plots for data and clusters, highlighting popular, unpopular, and controversial comments.
 
-## Optimization Ideas
+## Optimization Strategies
 
-Handling 28 million comments on regular computers is challenging. To address this, we plan to use algorithms or Large Language Models to identify and present interesting comments from each cluster instead of visualizing all comments. Additionally, we aim to enable the transformation of new user comments into embeddings without running the LLM locally, facilitating the addition of new comments to the dataset.
+Managing 28 million comments on standard computers poses a significant challenge. Our strategy involves using algorithms or Large Language Models to highlight interesting comments from each cluster, avoiding the need to visualize all comments. We also plan to facilitate the addition of new user comments into the dataset without requiring local LLM execution.
 
-# Usage
+# Getting Started
 
-## To set python venv (for tourch, models, etc), run
+## Setting Up Python Virtual Environment
+
+To set up a Python virtual environment for Torch, models, etc., execute:
 
 ```
 python3 -m venv env
 source env/bin/activate
 ```
 
-to install all your dependencies within their own copy of the project:
+Then, install all dependencies:
 
 ```
 pip install -r requirements.txt
 ```
 
-## To run emmbading llm
+## Running the Embedding LLM
 
-download [ollama](https://ollama.com/download/mac), and follow the instructions
-make sure that you have to initialize ollama before running the emmbedding algorithm
+Download [Ollama](https://ollama.com/download/mac) and follow the setup instructions. Ensure Ollama is initialized before running the embedding algorithm.
 
-## to install g-tests
+## Installing G-Tests
 
-follow the [instructions](https://stackoverflow.com/questions/15852631/how-to-install-gtest-on-mac-os-x-with-homebrew). Proper, portable usage will be implemented later. (Like built-in CMake files.)
+To install G-Tests, follow these [instructions](https://stackoverflow.com/questions/15852631/how-to-install-gtest-on-mac-os-x-with-homebrew). Future updates will include proper, portable usage (e.g., built-in CMake files).
+```
