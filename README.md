@@ -1,4 +1,3 @@
-```markdown
 # Project Overview
 
 ## Data Source
@@ -15,7 +14,6 @@ ollama_embedding = OllamaEmbedding(
     base_url="http://localhost:11434",
     ollama_additional_kwargs={"mirostat": 0},
 )
-```
 
 The embeddings were stored in `data/train_embeddings.npy`.
 
