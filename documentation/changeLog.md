@@ -62,7 +62,7 @@
 - Update README.md to include details about the clustering core's current implementation.
 - Add clustering.cpp to demonstrate the use of KMeansND.hpp for raw data clustering.
 
-## Commit #... "Handle bigData for showcase" [Pull-link]()
+## Commit #ca82e02 "Handle bigData for showcase" [Pull-link]()
 
 - processing data for half-million set on external server
 - implementing Clustering.cpp file
@@ -70,4 +70,18 @@
 - clustering 2D locally
 - Orginize data
 - Upload compresed data files to disk
+
+## Commit #... "Clustering sort & relevant choose & test" [Pull-link]()
+
+- Fix typos in README.md
+- Create new directory "data_processing" for handling pre-processed data
+- Implement ClusterRelevantInfo.hpp in "modules/"
+- Implement SortingClusters.hpp in "modules/"
+- Implement Cluster class with typedef Clusters
+- Implement tests:
+  - For constructor of Cluster class
+  - For sorting points
+  - For getRelevantNeighbors
+- Extend TestClustering.cpp with tests for data_processing
+
   

@@ -1,4 +1,3 @@
-```markdown
 # Project Overview
 
 ## Data Source
@@ -78,4 +77,3 @@ Download [Ollama](https://ollama.com/download/mac) and follow the setup instruct
 ## Installing G-Tests
 
 To install G-Tests, follow these [instructions](https://stackoverflow.com/questions/15852631/how-to-install-gtest-on-mac-os-x-with-homebrew). Future updates will include proper, portable usage (e.g., built-in CMake files).
-```
