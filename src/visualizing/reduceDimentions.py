@@ -47,6 +47,6 @@ def from_list_return_list(data):
 if __name__ == "__main__":
     from time import time
     start = time()
-    from_npy_to_csv(filepath='data/train_embeddings.npy')
+    from_npy_to_csv(filepath='data/big_data/embeddings.npy')
     end = time()
     print(f'time required: {end-start} seconds')
