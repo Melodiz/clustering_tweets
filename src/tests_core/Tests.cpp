@@ -5,6 +5,7 @@
 #include "TestKMeansND.hpp"
 #include "TestClusters.hpp"
 #include "TestClusterRelevantInfo.hpp"
+#include "TestReduceClusterSizes.hpp"
 
 int main()
 {
@@ -18,9 +19,10 @@ int main()
     TestWriteData().runTests();
 
     TestKMeansND().runTests();
-    TestClusterConstructo().runTests();
+    TestClusterConstructor().runTests();
     TestClusterSort().runTests();
     TestClusterNeighbors().runTests();
+    TestReadCentroids().runTests();
 
 
     std::cout << "\n=========================\n";

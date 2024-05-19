@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 
-class TestClusterConstructo
+class TestClusterConstructor
 {
 public:
     static void runTests()
@@ -94,9 +94,11 @@ protected:
 class TestClusterSort {
 public:
     static void runTests() {
+        std::cout << "\nRunning Cluster sort tests..." << std::endl;
         testSort2D();
         testSort3D();
         testSort4D();
+        std::cout << "All Cluster sort tests passed.\n" << std::endl;
     }
 
 private:

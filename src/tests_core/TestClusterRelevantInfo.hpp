@@ -8,11 +8,13 @@
 class TestClusterNeighbors {
 public:
     static void runTests() {
+        std::cout << "\nRunning tests for ClusterNeighbors..." << std::endl;
         testGetNeighbors2D();
         testGetNeighbors3D();
         testGetNeighbors4D();
         testDisjointChoose();
         testExtremeCases();
+        std::cout << "All ClusterNeighbors tests passed." << std::endl;
     }
 
 private:
