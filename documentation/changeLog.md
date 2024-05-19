@@ -75,7 +75,7 @@
 
 - Fix typos in README.md
 - Create new directory "data_processing" for handling pre-processed data
-- Implement ClusterRelevantInfo.hpp in "modules/"
+- Implement ClusterRelevantInfo.hpp in "modules/" which choose k relevant points near given point. (for choosing logic check the documentation)
 - Implement SortingClusters.hpp in "modules/"
 - Implement Cluster class with typedef Clusters
 - Implement tests:
@@ -84,19 +84,30 @@
   - For getRelevantNeighbors
 - Extend TestClustering.cpp with tests for data_processing
 
-## Commit #... "Enhance Clustering & Visualization"[Pull-link](https://github.com/Melodiz/clustering_tweets/pull/9)
+## Commit #f6828b2 "Enhance Clustering & Visualization" [Pull-link](https://github.com/Melodiz/clustering_tweets/pull/9)
 
 - Implement ReduceClusterSizes.hpp, which can:
   - Combine files of points coordinates, cluster_ids, centroids to singe vector of Points with cluster_id & distance
   - read Centroids files
   - read ClusterIds files
-  - choose k relevant points near given point. (for choosing logic check the documentation)
 - add returnClusters method, which form vector of type Cluster, from vector of Points and vector of Centroids
 - build 2D map of clustered points
 - name all the clusters using gpt4o, with 112k tokens context
 - add scatter plots to data/samples
 - add names.json to data/ wich contains names of clusters
 - implement test for ReduceClusterSizes.hpp
+
+## Commit #... "Doc. for ReduceClusterSizes & ClusterTools" [Pull-link](https://github.com/Melodiz/clustering_tweets/pull/9)
+
+- move paths.json to "data/"
+- implement documentation for:
+  - Cluster.hpp
+  - ClusterRelevantInfo.hpp
+  - TestClusterRelevantInfo.hpp
+  - TestCluster.hpp
+  - ClusterTools.hpp
+
+
 
 
 
