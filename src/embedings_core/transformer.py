@@ -26,7 +26,7 @@ def transform_banch_of_text_direct(text_batch):
 
 def transform_banch_of_text_csv(file_path):
 
-    content = pd.read_csv(file_path)['body'].to_list()
+    content = pd.read_csv(file_path, nrows = 500_000)['body'].to_list()
 
     ollama_embedding = OllamaEmbedding(
         model_name="all-minilm",
@@ -71,6 +71,6 @@ def transform_banch_of_text_puretxt(file_path):
 if __name__ == "__main__":
     import time
     start = time.time()
-    transform_banch_of_text_csv(file_path='data/reddit_comments_train.csv')
+    transform_banch_of_text_csv(file_path='data/big_data/the-reddit-climate-change-dataset-comments.csv')
     end = time.time()
     print(f'time required: {end-start} seconds')

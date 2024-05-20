@@ -18,6 +18,17 @@ std::map<int, int> returnClustersSize(std::vector<Point> _points)
 }
 
 
+std::vector<std::vector<Point>> returnClusters(std::vector<Point> _points, std::vector<Point> _centroids)
+{
+    std::vector<std::vector<Point>> clusters(_centroids.size());
+    for (int i = 0; i < _points.size(); i++)
+    {
+        clusters[_points[i].cluster_id].push_back(_points[i]);
+    }
+    return clusters;
+}
+
+
 void iterationStatus(int iteration, int pointsChanged)
 {
     // display status of the current iteration 

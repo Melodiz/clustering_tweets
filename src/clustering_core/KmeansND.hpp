@@ -1,3 +1,4 @@
+#pragma once
 #include "include/npy.hpp"
 #include "modules/clusterTools.hpp"
 #include "modules/kMeansLogic.hpp"
@@ -40,6 +41,7 @@ public:
         _points = read_data(_pointsPath);
         _centroids = initialize_random_centroids(_points, _k);
     }
+    KMeansND(int k, std::string pointsPath, std::string centroidsPath) : _k(k), _pointsPath(pointsPath), _centroidsPath(centroidsPath), _points(read_data(pointsPath)), _centroids(read_data(centroidsPath)) {};
     KMeansND(int k, int max_iter, std::vector<Point> points) : _k(k), _max_iter(max_iter), _points(points), _centroids(initialize_random_centroids(points, k)){};
 
     KMeansND(int k, int max_iter) : _k(k), _max_iter(max_iter){};
