@@ -2,3 +2,4 @@ env/
 data/big_data
 notes.md
 .vscode/
+data/result.csv
