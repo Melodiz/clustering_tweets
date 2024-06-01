@@ -3,3 +3,5 @@ data/big_data
 notes.md
 .vscode/
 data/result.csv
+data/.DS_Store
+qt/newdata.csv
