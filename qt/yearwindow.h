@@ -2,24 +2,38 @@
 #define YEARWINDOW_H
 
 #include <QDialog>
+#include <QWidget>
+#include <QComboBox>
+#include <QPushButton>
+#include <QTextBrowser>
+#include "searchwindow.h"
+#include <QWebEngineView>
 
 namespace Ui {
-class YearWindow;
+class layout;
 }
 
-class YearWindow : public QDialog
+class yearwindow : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit YearWindow(QWidget *parent = nullptr);
-    ~YearWindow();
+    explicit yearwindow(QWidget *parent = nullptr);
+    ~yearwindow();
 
 private slots:
-    void on_yearShowButton_clicked();
+
+    void on_showHtmlButton_clicked();
+
 
 private:
-    Ui::YearWindow *ui;
+    Ui::layout *ui;
+
+    QComboBox *yearComboBox;
+    QPushButton *showHtmlButton;
+    QTextBrowser *htmlViewer;
+    QString getHtmlFilePath(const QString &year);
 };
 
 #endif // YEARWINDOW_H
+

@@ -1,22 +1,15 @@
 #include "infowindow.h"
 #include "ui_infowindow.h"
 
-InfoWindow::InfoWindow(QWidget *parent)
+infowindow::infowindow(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::InfoWindow)
+    , ui(new Ui::infowindow)
 {
     ui->setupUi(this);
     setWindowTitle("Info Window");
 }
 
-InfoWindow::~InfoWindow()
+infowindow::~infowindow()
 {
     delete ui;
 }
-
-
-void InfoWindow::on_infoShowButton_clicked()
-{
-
-}
-
