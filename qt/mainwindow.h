@@ -32,9 +32,11 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
     yearwindow *Ywindow;
     infowindow *Iwindow;
     searchwindow *Swindow;
+
 
 
 };

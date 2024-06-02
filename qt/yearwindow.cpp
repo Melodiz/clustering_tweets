@@ -1,5 +1,6 @@
 #include "yearwindow.h"
 #include "ui_yearwindow.h"
+
 #include "yearwindow.h"
 #include <QComboBox>
 #include <QPushButton>
@@ -21,6 +22,7 @@ yearwindow::yearwindow(QWidget *parent)
 }
 
 yearwindow::~yearwindow()
+
 {
     delete ui;
 }
@@ -80,3 +82,4 @@ QString yearwindow::getHtmlFilePath(const QString &year) {
     qDebug() << "HTML file path:" << path;
     return path;
 }
+

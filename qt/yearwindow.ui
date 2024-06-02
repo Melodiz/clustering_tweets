@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
+
  <class>layout</class>
  <widget class="QDialog" name="layout">
+
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
+
     <width>734</width>
     <height>674</height>
+
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,6 +19,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QComboBox" name="yearComboBox">
@@ -83,22 +88,26 @@
          <string>2022</string>
         </property>
        </item>
+
       </widget>
      </item>
     </layout>
    </item>
    <item>
+
     <widget class="QWebEngineView" name="htmlViewer" native="true"/>
    </item>
    <item>
     <widget class="QPushButton" name="showHtmlButton">
      <property name="text">
       <string>Choose</string>
+
      </property>
     </widget>
    </item>
   </layout>
  </widget>
+
  <customwidgets>
   <customwidget>
    <class>QWebEngineView</class>
@@ -107,6 +116,7 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+
  <resources/>
  <connections/>
 </ui>
