@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Year 2020</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        p {
+            font-size: 16px;
+        }
+    </style>
+    <!-- Include Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Year 2020</h1>
+    <p>This is a simple HTML file for the year 2020.</p>
+    <p>It includes basic HTML elements such as headings, paragraphs, and styles.</p>
+    <div id="plotly-chart" style="width:600px;height:400px;"></div>
+    <script>
+        var data = [{
+            x: [1, 2, 3, 4],
+            y: [10, 15, 13, 17],
+            type: 'scatter'
+        }];
+
+        Plotly.newPlot('plotly-chart', data);
+    </script>
+</body>
+</html>
+

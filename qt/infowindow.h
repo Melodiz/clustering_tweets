@@ -4,22 +4,23 @@
 #include <QDialog>
 
 namespace Ui {
-class InfoWindow;
+
+class infowindow;
 }
 
-class InfoWindow : public QDialog
+class infowindow : public QDialog
+
 {
     Q_OBJECT
 
 public:
-    explicit InfoWindow(QWidget *parent = nullptr);
-    ~InfoWindow();
 
-private slots:
-    void on_infoShowButton_clicked();
+    explicit infowindow(QWidget *parent = nullptr);
+    ~infowindow();
 
 private:
-    Ui::InfoWindow *ui;
+    Ui::infowindow *ui;
+
 };
 
 #endif // INFOWINDOW_H

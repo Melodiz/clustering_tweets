@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>year_maps/2011.html</file>
+        <file>year_maps/2012.html</file>
+        <file>year_maps/2013.html</file>
+        <file>year_maps/2014.html</file>
+        <file>year_maps/2015.html</file>
+        <file>year_maps/2016.html</file>
+        <file>year_maps/2017.html</file>
+        <file>year_maps/2018.html</file>
+        <file>year_maps/2019.html</file>
+        <file>year_maps/2020.html</file>
+        <file>year_maps/2021.html</file>
+        <file>year_maps/2022.html</file>
+        <file>year_maps/2025.html</file>
+    </qresource>
+</RCC>

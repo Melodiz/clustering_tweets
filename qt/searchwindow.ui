@@ -1,48 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SearchWindow</class>
- <widget class="QDialog" name="SearchWindow">
+
+ <class>searchwindow</class>
+ <widget class="QDialog" name="searchwindow">
+
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>822</width>
-    <height>559</height>
+
+    <width>400</width>
+    <height>300</height>
+
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Comment                </string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="comment">
-       <property name="text">
-        <string>something interesting</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="QListView" name="resultList"/>
-   </item>
-   <item>
-    <widget class="QPushButton" name="searchShowButton">
-     <property name="text">
-      <string>Search</string>
-     </property>
-    </widget>
-   </item>
-  </layout>
+
  </widget>
  <resources/>
  <connections/>

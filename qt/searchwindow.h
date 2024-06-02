@@ -2,28 +2,25 @@
 #define SEARCHWINDOW_H
 
 #include <QDialog>
-#include <QListWidget>
+
 
 namespace Ui {
-class SearchWindow;
+class searchwindow;
 }
 
-class SearchWindow : public QDialog
+class searchwindow : public QDialog
+
 {
     Q_OBJECT
 
 public:
-    explicit SearchWindow(QWidget *parent = nullptr);
-    ~SearchWindow();
 
-private slots:
-    void on_searchShowButton_clicked();
-
-
+    explicit searchwindow(QWidget *parent = nullptr);
+    ~searchwindow();
 
 private:
-    Ui::SearchWindow *ui;
-    QListWidget *resultList;
+    Ui::searchwindow *ui;
+
 };
 
 #endif // SEARCHWINDOW_H
