@@ -2,6 +2,7 @@
 #define YEARWINDOW_H
 
 #include <QDialog>
+
 #include <QWidget>
 #include <QComboBox>
 #include <QPushButton>
@@ -14,10 +15,12 @@ class layout;
 }
 
 class yearwindow : public QDialog
+
 {
     Q_OBJECT
 
 public:
+
     explicit yearwindow(QWidget *parent = nullptr);
     ~yearwindow();
 

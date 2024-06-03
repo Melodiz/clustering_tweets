@@ -1,7 +1,11 @@
-#ifndef INFOWINDOW_H
-#define INFOWINDOW_H
+#ifndef infowindow_H
+#define infowindow_H
 
+#include <QWidget>
+#include <QVector>
+#include <QPair>
 #include <QDialog>
+#include <QRadioButton>
 
 namespace Ui {
 class infowindow;
@@ -15,8 +19,14 @@ public:
     explicit infowindow(QWidget *parent = nullptr);
     ~infowindow();
 
+private slots:
+    void on_showButton_clicked();
+
 private:
     Ui::infowindow *ui;
+    QRadioButton *upvoteRadioButton;
+    int getSelectedClusterId();
+    void loadAndDisplayData(int cluster_id);
 };
 
-#endif // INFOWINDOW_H
+#endif // infowindow_H

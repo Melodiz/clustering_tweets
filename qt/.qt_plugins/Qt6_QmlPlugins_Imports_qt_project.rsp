@@ -1,0 +1,9 @@
+-rootPath
+/Users/marklyumanov/Desktop/clustering_tweets/qt
+-cmake-output
+-output-file
+/Users/marklyumanov/Desktop/clustering_tweets/qt/.qt_plugins/Qt6_QmlPlugins_Imports_qt_project.cmake
+-importPath
+/Users/marklyumanov/Desktop/clustering_tweets/qt
+-importPath
+/opt/homebrew/share/qt/qml

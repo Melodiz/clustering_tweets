@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
+
 project(qt_project VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
@@ -37,13 +38,17 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
+
         add_library(qt_project SHARED
+
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
+
         add_executable(qt_project
+
             ${PROJECT_SOURCES}
         )
     endif()
@@ -51,13 +56,16 @@ endif()
 
 target_link_libraries(qt_project PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::WebEngineWidgets Qt${QT_VERSION_MAJOR}::WebEngineCore)
 
+
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.CPProject)
 endif()
+
 set_target_properties(qt_project PROPERTIES
+
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -66,15 +74,19 @@ set_target_properties(qt_project PROPERTIES
 )
 
 include(GNUInstallDirs)
+
 include_directories(${Qt5WebEngineWidgets_INCLUDE_DIRS})
 include_directories(${Qt5WebEngineCore_INCLUDE_DIRS})
 
 install(TARGETS qt_project
+
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 if(QT_VERSION_MAJOR EQUAL 6)
+
     qt_finalize_executable(qt_project)
+
 endif()
