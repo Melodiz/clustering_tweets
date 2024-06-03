@@ -13,9 +13,9 @@
         <file>year_maps/2021.html</file>
         <file>year_maps/2022.html</file>
         <file>year_maps/2025.html</file>
-        <file>TSNEClustered.csv</file>
         <file>nndata.csv</file>
         <file>smalldata.csv</file>
         <file>vsdata.csv</file>
+        <file>tsne.csv</file>
     </qresource>
 </RCC>

@@ -23,21 +23,23 @@ infowindow::~infowindow()
 
 void infowindow::on_showButton_clicked()
 {
+    int cluster_id = getSelectedClusterId();
     if (ui->upvoteRadioButton->isChecked()) {
-        int cluster_id = getSelectedClusterId();
-        loadAndDisplayData(cluster_id);
+        loadAndDisplayData(cluster_id, true);
+    } else if (ui->repostRadioButton->isChecked()) {
+        loadAndDisplayData(cluster_id, false);
     }
 }
 
 int infowindow::getSelectedClusterId()
 {
     int index = ui->clusterComboBox->currentIndex();
-    return index + 1;  // Assuming cluster IDs start from 1
+    return index ;  // Assuming cluster IDs start from 1
 }
 
-void infowindow::loadAndDisplayData(int cluster_id)
+void infowindow::loadAndDisplayData(int cluster_id, bool showFirst10)
 {
-    QFile file(":/TSNEClustered.csv");
+    QFile file(":/tsne.csv");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "Could not open the file!";
         return;
@@ -46,19 +48,25 @@ void infowindow::loadAndDisplayData(int cluster_id)
     QTextStream in(&file);
     QVector<QPair<QString, double>> comments;
 
+    QRegularExpression re("(\\d+),(\\d+\\.\\d+),\"(.*)\"");
+
     while (!in.atEnd()) {
         QString line = in.readLine();
-        QStringList fields = line.split(',');
-        if (fields.size() != 3) {
+        QRegularExpressionMatch match = re.match(line);
+        if (!match.hasMatch()) {
+            qDebug() << "Skipping invalid line:" << line;
             continue;
         }
 
-        int id = fields[0].toInt();
-        double distance = fields[1].toDouble();
-        QString comment = fields[2];
+        int id = match.captured(1).toInt();
+        double distance = match.captured(2).toDouble();
+        QString comment = match.captured(3);
 
         if (id == cluster_id) {
             comments.append(qMakePair(comment, distance));
+        }
+        if (comments.size() ==25){
+            break;
         }
     }
 
@@ -66,12 +74,19 @@ void infowindow::loadAndDisplayData(int cluster_id)
         return a.second < b.second;
     });
 
-    ui->listWidget->clear(); // Clear the previous list
+    ui->tableWidget->setRowCount(10);
+    ui->tableWidget->setColumnCount(1);
+    ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "Comment");
+    ui->tableWidget->setColumnWidth(0, 500);
 
-    for (int i = 0; i < 10 && i < comments.size(); ++i) {
-        QListWidgetItem *item = new QListWidgetItem(comments[i].first + " (Distance: " + QString::number(comments[i].second) + ")");
-        item->setFlags(item->flags() & ~Qt::ItemIsEditable); // Make the item read-only
-        ui->listWidget->addItem(item);
+    int start = showFirst10 ? 0 : 10;
+    int end = qMin(start + 10, comments.size());
+
+    for (int i = start; i < end; ++i) {
+        QTableWidgetItem *commentItem = new QTableWidgetItem(comments[i].first);
+        commentItem->setFlags(commentItem->flags() & ~Qt::ItemIsEditable); // Make the item read-only
+
+        ui->tableWidget->setItem(i - start, 0, commentItem);
     }
 
     file.close();

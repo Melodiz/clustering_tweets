@@ -25,8 +25,9 @@ private slots:
 private:
     Ui::infowindow *ui;
     QRadioButton *upvoteRadioButton;
+    QRadioButton *repostRadioButton;
     int getSelectedClusterId();
-    void loadAndDisplayData(int cluster_id);
+    void loadAndDisplayData(int cluster_id, bool showFirst10);
 };
 
 #endif // infowindow_H
