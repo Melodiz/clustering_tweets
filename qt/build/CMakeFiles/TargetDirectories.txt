@@ -1,0 +1,10 @@
+/Users/marklyumanov/Desktop/clustering_tweets/qt/build/CMakeFiles/qt_project.dir
+/Users/marklyumanov/Desktop/clustering_tweets/qt/build/CMakeFiles/qt_project_qmlimportscan.dir
+/Users/marklyumanov/Desktop/clustering_tweets/qt/build/CMakeFiles/edit_cache.dir
+/Users/marklyumanov/Desktop/clustering_tweets/qt/build/CMakeFiles/rebuild_cache.dir
+/Users/marklyumanov/Desktop/clustering_tweets/qt/build/CMakeFiles/list_install_components.dir
+/Users/marklyumanov/Desktop/clustering_tweets/qt/build/CMakeFiles/install.dir
+/Users/marklyumanov/Desktop/clustering_tweets/qt/build/CMakeFiles/install/local.dir
+/Users/marklyumanov/Desktop/clustering_tweets/qt/build/CMakeFiles/install/strip.dir
+/Users/marklyumanov/Desktop/clustering_tweets/qt/build/CMakeFiles/qt_project_autogen_timestamp_deps.dir
+/Users/marklyumanov/Desktop/clustering_tweets/qt/build/CMakeFiles/qt_project_autogen.dir

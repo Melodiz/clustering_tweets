@@ -58,6 +58,11 @@ Managing 28 million comments on standard computers poses a significant challenge
 
 # Getting Started
 
+## Download Missing Data Files
+
+1. Download the `data/` directory from [this link](https://disk.yandex.ru/d/phEJr2sHg5HMDg) and place it in the root folder.
+2. Download the necessary files from [this link](https://disk.yandex.ru/d/bnCTQw8FYw24vw) and place them in the `qt/` folder.
+
 ## Setting Up Python Virtual Environment
 
 To set up a Python virtual environment for Torch, models, etc., execute:

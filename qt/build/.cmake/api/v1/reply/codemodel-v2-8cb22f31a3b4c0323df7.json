@@ -1,0 +1,88 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-ec11b65d46754895af2b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "qt_project",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "qt_project::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-qt_project-Debug-314ad51d446a5eb96cae.json",
+					"name" : "qt_project",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "qt_project_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-qt_project_autogen-Debug-69311c50df7ffebb9911.json",
+					"name" : "qt_project_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "qt_project_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-qt_project_autogen_timestamp_deps-Debug-68720f397556f511268d.json",
+					"name" : "qt_project_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "qt_project_qmlimportscan::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-qt_project_qmlimportscan-Debug-fe1297d52165e3a31415.json",
+					"name" : "qt_project_qmlimportscan",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/marklyumanov/Desktop/clustering_tweets/qt/build",
+		"source" : "/Users/marklyumanov/Desktop/clustering_tweets/qt"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}
