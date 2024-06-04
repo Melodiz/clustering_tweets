@@ -2,4 +2,5 @@ env/
 data/
 notes.md
 .vscode/
-qt/newdata.csv
+qt/*.csv
+qt/year_maps
