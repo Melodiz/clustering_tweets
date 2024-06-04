@@ -29,8 +29,8 @@ Clustering functionality is implemented in `src/clustering_core/`. The `KmeansND
 Each function within KMeansND, as well as KMeansND itself, is tested in `src/tests_core/`. Comprehensive documentation is available in the `documentation/` directory.
 
 ### Clustering Algorithm Examples
-- ![Clustering of row embeddings, show 500k](data/samples/500_000.png)
-- ![Clustering of row embeddings, show 50k](data/samples/50_000.png)
+- ![Clustering of row embeddings, show 500k](samples/500k_tweets.png)
+- ![Clustering of row embeddings, show 50k](samples/50k_tweets.png)
 
 #### Note
 
