@@ -5,7 +5,3 @@ notes.md
 data/result.csv
 data/.DS_Store
 qt/newdata.csv
-qt/nndata.csv
-qt/smalldata.csv
-qt/tsne.csv
-qt/vsdata.csv
