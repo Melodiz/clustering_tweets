@@ -9,9 +9,26 @@
         <file>year_maps/2017.html</file>
         <file>year_maps/2018.html</file>
         <file>year_maps/2019.html</file>
-        <file>year_maps/2020.html</file>
         <file>year_maps/2021.html</file>
         <file>year_maps/2022.html</file>
         <file>year_maps/2025.html</file>
+        <file>nndata.csv</file>
+        <file>smalldata.csv</file>
+        <file>vsdata.csv</file>
+        <file>tsne.csv</file>
+        <file>year_maps/20220.html</file>
+        <file>photos/2012.png</file>
+        <file>photos/2013.png</file>
+        <file>photos/2014.png</file>
+        <file>photos/2015.png</file>
+        <file>photos/2016.png</file>
+        <file>photos/2017.png</file>
+        <file>photos/2018.png</file>
+        <file>photos/2019.png</file>
+        <file>photos/2020.png</file>
+        <file>photos/2011.png</file>
+        <file>photos/2021.png</file>
+        <file>photos/2022.png</file>
+        <file>photos/chat.png</file>
     </qresource>
 </RCC>

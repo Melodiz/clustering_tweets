@@ -3,12 +3,13 @@
 
 #include <QDialog>
 
-#include <QWidget>
 #include <QComboBox>
+#include <QTableWidget>
+#include <QLabel>
 #include <QPushButton>
-#include <QTextBrowser>
-#include "searchwindow.h"
-#include <QWebEngineView>
+#include <QMap>
+#include <QVector>
+#include <QPair>
 
 namespace Ui {
 class layout;
@@ -25,7 +26,6 @@ public:
     ~yearwindow();
 
 private slots:
-
     void on_showHtmlButton_clicked();
 
 
@@ -34,8 +34,15 @@ private:
 
     QComboBox *yearComboBox;
     QPushButton *showHtmlButton;
-    QTextBrowser *htmlViewer;
-    QString getHtmlFilePath(const QString &year);
+    QLabel *imageLabel;
+    QTableWidget *tableWidget;
+
+    QMap<int, QVector<QPair<int, int>>> yearClusterData;
+    QMap<int, QString> clusterNames;
+
+    void loadData();
+    void updateTableAndImage(int year);
+    void initializeClusterNames();
 };
 
 #endif // YEARWINDOW_H

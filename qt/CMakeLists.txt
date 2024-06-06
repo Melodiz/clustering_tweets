@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.5)
 
 
+
 project(qt_project VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -90,3 +92,4 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(qt_project)
 
 endif()
+

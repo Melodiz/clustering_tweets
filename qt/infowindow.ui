@@ -1,23 +1,184 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-
  <class>infowindow</class>
  <widget class="QDialog" name="infowindow">
-
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-
-    <width>400</width>
-    <height>300</height>
-
+    <width>546</width>
+    <height>475</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="1">
+      <widget class="QRadioButton" name="repostRadioButton">
+       <property name="text">
+        <string>By Repost</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QRadioButton" name="upvoteRadioButton">
+       <property name="text">
+        <string>By Upvote</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Choose the cluster</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="clusterComboBox">
+       <item>
+        <property name="text">
+         <string>Skepticism</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Fatalism</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Politics</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Natural Disasters</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Renewable Energy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Wildlife</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Agriculture</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Health</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Technology</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Economics</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Activism</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Education</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Policy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Transportation</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Personal Responsibility</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Media</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Water Resources</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Urban Planning</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Historical Context</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>International Relations</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Indigenous Perspectives</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Gender</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Youth</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Art</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Religion</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableWidget"/>
+   </item>
+   <item>
+    <widget class="QPushButton" name="showButton">
+     <property name="text">
+      <string>Show info</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
